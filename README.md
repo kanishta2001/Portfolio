@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nipun Karunarathna — Developer Portfolio
 
-## Getting Started
+මෙය Nipun Karunarathna සඳහා සාදන ලද single-page developer portfolio එකයි. Project එක `Next.js App Router`, `React`, `TypeScript`, `Tailwind CSS`, `Motion`, සහ `Lucide React` භාවිතා කරයි.
 
-First, run the development server:
+## Project එක run කිරීම
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+ඉන්පසු browser එකෙන් `http://localhost:3000` open කරන්න.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Production check සඳහා:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npm run build
+```
 
-## Learn More
+## Content වෙනස් කරන ස්ථානය
 
-To learn more about Next.js, take a look at the following resources:
+Profile details, navigation, projects, timeline සහ skills සියල්ල `src/data/portfolio.ts` file එකේ තිබේ. සාමාන්‍ය content edit එකක් සඳහා components වෙනස් කිරීමට අවශ්‍ය නැහැ.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ප්‍රධාන folders
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `src/app/` — App Router page, metadata සහ global styles
+- `src/components/portfolio/` — portfolio sections සහ interactive components
+- `src/data/portfolio.ts` — edit කිරීමට පහසු centralized content
+- `public/projects/` — real project screenshots දමන ස්ථානය
+- `public/images/` — වෙනත් portfolio images සඳහා
+- `public/cv/` — CV PDF එක සඳහා
 
-## Deploy on Vercel
+## Project screenshot එකක් එකතු කිරීම
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Image එක `public/projects/` folder එකට දමන්න. උදාහරණය: `public/projects/teamfit.png`.
+2. `src/data/portfolio.ts` හි අදාළ project object එකට පහත property එක දමන්න:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```ts
+image: "/projects/teamfit.png",
+```
+
+Image එකක් නැති project card එක clean placeholder එකක් පෙන්වයි. Fake screenshots භාවිතා කරන්නේ නැහැ.
+
+## CV එක එකතු කිරීම
+
+CV file එක මේ exact path එකට දමන්න:
+
+```text
+public/cv/Nipun-Karunarathna-CV.pdf
+```
+
+Hero සහ Contact section වල Download CV buttons දෙකම එම path එක භාවිතා කරයි.
+
+## Client Components භාවිතා කරන හේතුව
+
+- `navbar.tsx` — mobile menu state එක සඳහා
+- `reveal.tsx` — viewport reveal animations සඳහා
+- `timeline.tsx` — scroll progress line සහ Motion hooks සඳහා
+
+අනෙක් content sections Server Components ලෙස තබා ඇති නිසා browser එකට අවශ්‍ය නොවන JavaScript යැවීම අඩු වේ.

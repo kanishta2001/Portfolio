@@ -1,0 +1,137 @@
+export type Project = {
+  title: string;
+  subtitle: string;
+  description: string;
+  technologies: string[];
+  category: string;
+  status?: string;
+  image?: string;
+  githubUrl?: string;
+  liveUrl?: string;
+};
+
+export const profile = {
+  name: "Nipun Karunarathna",
+  title: "Full-Stack Web Developer",
+  status: "Software Engineering Undergraduate",
+  email: "kanishtakarunarathne2001@gmail.com",
+  github: "https://github.com/kanishta2001",
+  linkedin: "https://www.linkedin.com/in/nipun-karunarathne",
+  cv: "/cv/Nipun-Karunarathna-CV.pdf",
+  bio: "I am a Software Engineering undergraduate focused on full-stack web development. I enjoy creating clean user interfaces, building structured backend APIs, and learning modern technologies by working on practical projects.",
+} as const;
+
+export const navigation = [
+  { label: "Home", href: "#home" },
+  { label: "About", href: "#about" },
+  { label: "Projects", href: "#projects" },
+  { label: "Tracing My Path", href: "#journey" },
+  { label: "Skills", href: "#skills" },
+  { label: "Contact", href: "#contact" },
+] as const;
+
+export const highlights = [
+  {
+    title: "Software Engineering Undergraduate",
+    description: "Studying software engineering through a practical, project-first approach.",
+  },
+  {
+    title: "Full-Stack Development Focus",
+    description: "Building React interfaces and structured ASP.NET Core APIs.",
+  },
+  {
+    title: "Open to Internship Opportunities",
+    description: "Ready to contribute, learn, and grow with a development team.",
+  },
+] as const;
+
+export const projects: Project[] = [
+  {
+    title: "TeamFit",
+    subtitle: "Smart Student Project Team Formation Platform",
+    description:
+      "A full-stack platform that helps university students create balanced project teams using skills, preferred roles, and availability.",
+    technologies: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "C#",
+      "ASP.NET Core Web API",
+      "SQL Server",
+      "Entity Framework Core",
+    ],
+    category: "Featured Full-Stack Project",
+    status: "In Progress",
+    githubUrl: "https://github.com/kanishta2001/TeamFit",
+  },
+  {
+    title: "LK_TRAVELMATE",
+    subtitle: "Sri Lanka Travel Companion Mobile App",
+    description:
+      "A mobile application concept focused on helping travellers explore and navigate Sri Lanka.",
+    technologies: ["Flutter", "Dart"],
+    category: "Mobile App",
+  },
+  {
+    title: "Student Management System",
+    subtitle: "Academic Student Information Project",
+    description:
+      "An academic project created to organize and manage core student information.",
+    technologies: ["Java"],
+    category: "Academic Project",
+  },
+  {
+    title: "Auction Management System",
+    subtitle: "Web-Based Auction Management Project",
+    description:
+      "A learning project for managing auction-related information and user interactions on the web.",
+    technologies: ["JavaScript"],
+    category: "Academic Project",
+  },
+];
+
+export const timeline = [
+  {
+    year: "2024",
+    title: "Started Web Development Basics",
+    description: "Learned HTML, CSS, JavaScript and programming fundamentals.",
+  },
+  {
+    year: "2025",
+    title: "Built Academic and Learning Projects",
+    description:
+      "Worked on Student Management System, Auction Management System and LK_TRAVELMATE.",
+  },
+  {
+    year: "2026",
+    title: "Full-Stack Development Path",
+    description:
+      "Developing skills in C#, .NET, ASP.NET Core, React, Next.js, TypeScript and SQL Server while building TeamFit.",
+  },
+  {
+    year: "2026+",
+    title: "Internship Goal",
+    description:
+      "Improving my full-stack skills and preparing for software engineering internship opportunities.",
+  },
+] as const;
+
+export const skillGroups = [
+  {
+    title: "Frontend",
+    skills: ["React", "Next.js", "JavaScript", "TypeScript", "Tailwind CSS"],
+  },
+  {
+    title: "Backend",
+    skills: ["C#", ".NET", "ASP.NET Core Web API"],
+  },
+  {
+    title: "Database",
+    skills: ["SQL Server", "Entity Framework Core"],
+  },
+  {
+    title: "Tools",
+    skills: ["Git", "GitHub", "VS Code", "Swagger"],
+  },
+] as const;
