@@ -18,7 +18,7 @@ export function SectionHeading({
           centered ? "justify-center" : ""
         }`}
       >
-        <span className="size-1.5 rounded-full bg-highlight shadow-[0_0_10px_rgba(167,139,250,0.8)]" />
+        <span className="size-1.5 rounded-full bg-highlight shadow-[0_0_10px_rgba(235,94,40,0.8)]" />
         {eyebrow}
       </div>
       <h2 className="font-heading text-4xl leading-tight font-bold tracking-[-0.035em] text-white sm:text-5xl">

@@ -49,7 +49,7 @@ export function About() {
               return (
                 <Reveal key={strength.title} delay={index * 0.08}>
                   <article className="glass-card group flex items-start gap-4 rounded-3xl p-6 transition-transform hover:-translate-y-1">
-                    <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-indigo-400 text-white shadow-[0_10px_30px_rgba(167,139,250,0.18)]">
+                    <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-indigo-400 text-white shadow-[0_10px_30px_rgba(235,94,40,0.18)]">
                       <Icon size={20} aria-hidden="true" />
                     </div>
                     <div>

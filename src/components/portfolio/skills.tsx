@@ -82,7 +82,7 @@ export function Skills() {
           />
         </motion.div>
 
-        <div className="mt-14 overflow-hidden rounded-[2rem] border border-white/10 bg-[#111225]/80 shadow-[0_30px_100px_rgba(2,3,16,0.32)] backdrop-blur-xl">
+        <div className="mt-14 overflow-hidden rounded-[2rem] border border-white/10 bg-surface-strong/80 shadow-[0_30px_100px_rgba(18,17,16,0.34)] backdrop-blur-xl">
           <div className="flex flex-col gap-3 border-b border-white/8 px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-8">
             <div className="flex items-center gap-3">
               <span className="relative flex size-3">

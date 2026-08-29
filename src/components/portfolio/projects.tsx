@@ -16,10 +16,10 @@ import { SectionHeading } from "./section-heading";
 
 const projectMarks = ["TF", "LK", "SM", "AM"];
 const projectAccents = [
-  { from: "#a78bfa", to: "#4f46e5" },
-  { from: "#38bdf8", to: "#4b356d" },
-  { from: "#f59e0b", to: "#7c3aed" },
-  { from: "#f97316", to: "#39476e" },
+  { from: "#eb5e28", to: "#403d39" },
+  { from: "#ccc5b9", to: "#eb5e28" },
+  { from: "#f08055", to: "#403d39" },
+  { from: "#eb5e28", to: "#ccc5b9" },
 ];
 
 type ProjectVisualProps = {
@@ -33,7 +33,7 @@ function ProjectVisual({ project, index, compact = false }: ProjectVisualProps) 
 
   if (project.image) {
     return (
-      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#090a16]">
+      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#1e1d1b]">
         <Image
           src={project.image}
           alt={`${project.title} project screenshot`}
@@ -49,7 +49,7 @@ function ProjectVisual({ project, index, compact = false }: ProjectVisualProps) 
     <div
       role="img"
       aria-label={`${project.title} clean project preview placeholder`}
-      className="relative aspect-[16/10] w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#090a16] shadow-[0_28px_90px_rgba(0,0,0,0.36)]"
+      className="relative aspect-[16/10] w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#1e1d1b] shadow-[0_28px_90px_rgba(0,0,0,0.36)]"
     >
       <div
         aria-hidden="true"

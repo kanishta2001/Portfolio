@@ -18,23 +18,25 @@ export default function Home() {
         Skip to content
       </a>
       <Navbar />
-      <main id="main-content">
-        <Hero />
-        <SectionTransition>
-          <About />
-        </SectionTransition>
-        <Projects />
-        <SectionTransition>
-          <Timeline />
-        </SectionTransition>
-        <SectionTransition variant="scale">
-          <Skills />
-        </SectionTransition>
-        <SectionTransition variant="scale">
-          <Contact />
-        </SectionTransition>
-      </main>
-      <Footer />
+      <div className="lg:pl-48">
+        <main id="main-content">
+          <Hero />
+          <SectionTransition>
+            <About />
+          </SectionTransition>
+          <Projects />
+          <SectionTransition>
+            <Timeline />
+          </SectionTransition>
+          <SectionTransition variant="scale">
+            <Skills />
+          </SectionTransition>
+          <SectionTransition variant="scale">
+            <Contact />
+          </SectionTransition>
+        </main>
+        <Footer />
+      </div>
     </>
   );
 }

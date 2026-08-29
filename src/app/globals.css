@@ -1,15 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0f1020;
-  --surface: #17182f;
-  --surface-strong: #1d1e38;
-  --primary: #4b356d;
-  --secondary: #39476e;
-  --highlight: #a78bfa;
-  --foreground: #ffffff;
-  --muted: #a1a1aa;
-  --border: rgba(255, 255, 255, 0.1);
+  /* Uploaded palette: warm cream, stone, charcoal, ink, and orange. */
+  --background: #252422;
+  --surface: #403d39;
+  --surface-strong: #302e2b;
+  --primary: #eb5e28;
+  --secondary: #ccc5b9;
+  --highlight: #eb5e28;
+  --foreground: #fffcf2;
+  --muted: #ccc5b9;
+  --border: rgba(204, 197, 185, 0.16);
 }
 
 @theme inline {
@@ -21,6 +22,18 @@
   --color-highlight: var(--highlight);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
+  /* Existing utilities inherit the new warm palette consistently. */
+  --color-white: #fffcf2;
+  --color-black: #252422;
+  --color-zinc-100: #fffcf2;
+  --color-zinc-200: #eee8dc;
+  --color-zinc-300: #ddd6ca;
+  --color-zinc-400: #ccc5b9;
+  --color-zinc-500: #a49e94;
+  --color-zinc-600: #77716a;
+  --color-indigo-400: #f08055;
+  --color-violet-200: #ffc6ad;
+  --color-emerald-400: #eb5e28;
   --font-sans: var(--font-inter);
   --font-heading: var(--font-space-grotesk);
 }
@@ -32,23 +45,23 @@
 html {
   overflow-x: clip;
   scroll-behavior: smooth;
-  scroll-padding-top: 9rem;
+  scroll-padding-top: 6rem;
 }
 
 body {
   min-height: 100vh;
   overflow-x: clip;
   background:
-    radial-gradient(circle at 8% 12%, rgba(75, 53, 109, 0.2), transparent 30rem),
-    radial-gradient(circle at 90% 30%, rgba(57, 71, 110, 0.13), transparent 28rem),
+    radial-gradient(circle at 12% 10%, rgba(235, 94, 40, 0.11), transparent 30rem),
+    radial-gradient(circle at 88% 24%, rgba(204, 197, 185, 0.07), transparent 28rem),
     var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), Arial, sans-serif;
 }
 
 ::selection {
-  background: rgba(167, 139, 250, 0.34);
-  color: #ffffff;
+  background: rgba(235, 94, 40, 0.42);
+  color: #fffcf2;
 }
 
 a,
@@ -69,13 +82,13 @@ button:focus-visible {
 
 .glass-card {
   border: 1px solid var(--border);
-  background: linear-gradient(145deg, rgba(29, 30, 56, 0.92), rgba(23, 24, 47, 0.72));
-  box-shadow: 0 24px 80px rgba(3, 4, 19, 0.24);
+  background: linear-gradient(145deg, rgba(64, 61, 57, 0.82), rgba(48, 46, 43, 0.72));
+  box-shadow: 0 24px 80px rgba(18, 17, 16, 0.28);
   backdrop-filter: blur(16px);
 }
 
 .text-gradient {
-  background: linear-gradient(110deg, #ffffff 5%, #c4b5fd 48%, #818cf8 100%);
+  background: linear-gradient(110deg, #eb5e28 5%, #f08055 55%, #fffcf2 112%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
