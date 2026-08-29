@@ -30,13 +30,14 @@
 }
 
 html {
+  overflow-x: clip;
   scroll-behavior: smooth;
-  scroll-padding-top: 7rem;
+  scroll-padding-top: 9rem;
 }
 
 body {
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow-x: clip;
   background:
     radial-gradient(circle at 8% 12%, rgba(75, 53, 109, 0.2), transparent 30rem),
     radial-gradient(circle at 90% 30%, rgba(57, 71, 110, 0.13), transparent 28rem),
@@ -78,6 +79,14 @@ button:focus-visible {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+.scroll-section-perspective {
+  perspective: 1400px;
+}
+
+.marquee-mask {
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
 }
 
 @media (prefers-reduced-motion: reduce) {

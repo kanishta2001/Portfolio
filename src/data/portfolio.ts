@@ -120,18 +120,40 @@ export const timeline = [
 export const skillGroups = [
   {
     title: "Frontend",
-    skills: ["React", "Next.js", "JavaScript", "TypeScript", "Tailwind CSS"],
+    description: "Interfaces that feel clear, fast, and responsive.",
+    skills: [
+      { name: "React", logo: "/skills/react.svg" },
+      { name: "Next.js", logo: "/skills/nextjs.svg", invert: true },
+      { name: "JavaScript", logo: "/skills/javascript.svg" },
+      { name: "TypeScript", logo: "/skills/typescript.svg" },
+      { name: "Tailwind CSS", logo: "/skills/tailwindcss.svg" },
+    ],
   },
   {
     title: "Backend",
-    skills: ["C#", ".NET", "ASP.NET Core Web API"],
+    description: "Structured APIs and maintainable application logic.",
+    skills: [
+      { name: "C#", logo: "/skills/csharp.svg" },
+      { name: ".NET", logo: "/skills/dotnetcore.svg" },
+      { name: "ASP.NET Core Web API", logo: "/skills/dotnetcore.svg" },
+    ],
   },
   {
     title: "Database",
-    skills: ["SQL Server", "Entity Framework Core"],
+    description: "Reliable data access and relational data modelling.",
+    skills: [
+      { name: "SQL Server", logo: "/skills/sqlserver.svg" },
+      { name: "Entity Framework Core", logo: "/skills/entityframeworkcore.svg" },
+    ],
   },
   {
     title: "Tools",
-    skills: ["Git", "GitHub", "VS Code", "Swagger"],
+    description: "Daily tools that support development and delivery.",
+    skills: [
+      { name: "Git", logo: "/skills/git.svg" },
+      { name: "GitHub", logo: "/skills/github.svg", invert: true },
+      { name: "VS Code", logo: "/skills/vscode.svg" },
+      { name: "Swagger", logo: "/skills/swagger.svg" },
+    ],
   },
 ] as const;
