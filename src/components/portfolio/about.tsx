@@ -25,12 +25,10 @@ export function About() {
   return (
     <section id="about" className="py-28 sm:py-36">
       <div className="site-container">
-        <Reveal>
-          <SectionHeading eyebrow="About" title="About Me" />
-        </Reveal>
+        <SectionHeading eyebrow="About" title="About Me" />
 
         <div className="mt-12 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-          <Reveal className="glass-card rounded-[1.75rem] p-7 sm:p-9">
+          <Reveal className="glass-card interactive-surface rounded-[1.75rem] p-7 sm:p-9">
             <p className="max-w-2xl text-lg leading-8 text-zinc-300 sm:text-xl sm:leading-9">
               {profile.bio}
             </p>
@@ -48,8 +46,8 @@ export function About() {
 
               return (
                 <Reveal key={strength.title} delay={index * 0.08}>
-                  <article className="glass-card group flex items-start gap-4 rounded-3xl p-6 transition-transform hover:-translate-y-1">
-                    <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-indigo-400 text-white shadow-[0_10px_30px_rgba(235,94,40,0.18)]">
+                  <article className="glass-card interactive-surface group flex items-start gap-4 rounded-3xl p-6">
+                    <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-indigo-400 text-white shadow-[0_10px_30px_rgba(235,94,40,0.18)] transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-105">
                       <Icon size={20} aria-hidden="true" />
                     </div>
                     <div>

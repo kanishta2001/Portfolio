@@ -10,7 +10,7 @@ type Skill = (typeof skillGroups)[number]["skills"][number];
 function SkillCard({ skill }: { skill: Skill }) {
   return (
     <motion.li
-      className="group relative flex min-w-40 items-center gap-3 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-3.5"
+      className="group relative flex min-w-40 items-center gap-3 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-3.5 transition-colors hover:border-highlight/35"
       whileHover={{ y: -6, scale: 1.02 }}
       transition={{ type: "spring", stiffness: 320, damping: 22 }}
     >
@@ -69,20 +69,13 @@ export function Skills() {
     <section id="skills" className="relative py-28 sm:py-36">
       <div aria-hidden="true" className="absolute top-1/2 left-1/2 h-80 w-[70%] -translate-x-1/2 -translate-y-1/2 bg-primary/10 blur-[120px]" />
       <div className="site-container relative">
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 28 }}
-          whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.55 }}
-        >
-          <SectionHeading
-            eyebrow="Skills"
-            title="Tools I Work With"
-            description="A living toolkit for building clean interfaces, structured APIs, and dependable full-stack applications."
-          />
-        </motion.div>
+        <SectionHeading
+          eyebrow="Skills"
+          title="Tools I Work With"
+          description="A living toolkit for building clean interfaces, structured APIs, and dependable full-stack applications."
+        />
 
-        <div className="mt-14 overflow-hidden rounded-[2rem] border border-white/10 bg-surface-strong/80 shadow-[0_30px_100px_rgba(18,17,16,0.34)] backdrop-blur-xl">
+        <div className="interactive-surface mt-14 overflow-hidden rounded-[2rem] border border-white/10 bg-surface-strong/80 shadow-[0_30px_100px_rgba(18,17,16,0.34)] backdrop-blur-xl">
           <div className="flex flex-col gap-3 border-b border-white/8 px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-8">
             <div className="flex items-center gap-3">
               <span className="relative flex size-3">

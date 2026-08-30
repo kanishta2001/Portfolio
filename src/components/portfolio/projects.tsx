@@ -33,14 +33,15 @@ function ProjectVisual({ project, index, compact = false }: ProjectVisualProps) 
 
   if (project.image) {
     return (
-      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#1e1d1b]">
+      <div className="group/project relative aspect-[16/10] w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#1e1d1b] transition-colors duration-500 hover:border-highlight/35">
         <Image
           src={project.image}
           alt={`${project.title} project screenshot`}
           fill
           sizes="(min-width: 1024px) 52vw, 100vw"
-          className="object-cover"
+          className="object-cover transition-[transform,filter] duration-700 ease-out group-hover/project:scale-[1.045] group-hover/project:brightness-110"
         />
+        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-tr from-primary/20 via-transparent to-secondary/10 opacity-0 transition-opacity duration-500 group-hover/project:opacity-100" />
       </div>
     );
   }
@@ -49,18 +50,18 @@ function ProjectVisual({ project, index, compact = false }: ProjectVisualProps) 
     <div
       role="img"
       aria-label={`${project.title} clean project preview placeholder`}
-      className="relative aspect-[16/10] w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#1e1d1b] shadow-[0_28px_90px_rgba(0,0,0,0.36)]"
+      className="group/project relative aspect-[16/10] w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#1e1d1b] shadow-[0_28px_90px_rgba(0,0,0,0.36)] transition-[transform,border-color,box-shadow] duration-500 ease-out hover:-translate-y-1 hover:border-highlight/35 hover:shadow-[0_32px_100px_rgba(0,0,0,0.46)]"
     >
       <div
         aria-hidden="true"
-        className="absolute inset-0 opacity-40"
+        className="absolute inset-0 opacity-40 transition-[opacity,transform] duration-700 ease-out group-hover/project:scale-110 group-hover/project:opacity-60"
         style={{
           background: `radial-gradient(circle at 78% 16%, ${accent.from}66, transparent 34%), radial-gradient(circle at 16% 86%, ${accent.to}44, transparent 38%)`,
         }}
       />
       <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:28px_28px]" />
 
-      <div className="relative flex h-full flex-col p-5 sm:p-7">
+      <div className="relative flex h-full flex-col p-5 transition-transform duration-700 ease-out group-hover/project:scale-[1.015] sm:p-7">
         <div className="flex items-center justify-between border-b border-white/8 pb-4">
           <div className="flex items-center gap-2" aria-hidden="true">
             <span className="size-2 rounded-full" style={{ backgroundColor: accent.from }} />
@@ -109,9 +110,9 @@ function ProjectLinks({ project }: { project: Project }) {
           href={project.githubUrl}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/12 bg-white/[0.035] px-5 text-sm font-medium text-zinc-200 transition-colors hover:border-highlight/40 hover:bg-highlight/10 hover:text-white"
+          className="premium-button group inline-flex min-h-11 items-center gap-2 rounded-full border border-white/12 bg-white/[0.035] px-5 text-sm font-medium text-zinc-200 transition-[transform,border-color,background-color] duration-300 hover:-translate-y-0.5 hover:border-highlight/40 hover:bg-highlight/10 hover:text-white"
         >
-          <GitBranch size={16} aria-hidden="true" /> Repository <ArrowUpRight size={14} aria-hidden="true" />
+          <GitBranch size={16} aria-hidden="true" /> Repository <ArrowUpRight className="button-arrow" size={14} aria-hidden="true" />
         </a>
       )}
       {project.liveUrl && (
@@ -119,9 +120,9 @@ function ProjectLinks({ project }: { project: Project }) {
           href={project.liveUrl}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/12 bg-white/[0.035] px-5 text-sm font-medium text-zinc-200 transition-colors hover:border-highlight/40 hover:bg-highlight/10 hover:text-white"
+          className="premium-button group inline-flex min-h-11 items-center gap-2 rounded-full border border-white/12 bg-white/[0.035] px-5 text-sm font-medium text-zinc-200 transition-[transform,border-color,background-color] duration-300 hover:-translate-y-0.5 hover:border-highlight/40 hover:bg-highlight/10 hover:text-white"
         >
-          <ExternalLink size={16} aria-hidden="true" /> Live Demo
+          <ExternalLink className="button-arrow" size={16} aria-hidden="true" /> Live Demo
         </a>
       )}
     </div>
@@ -147,13 +148,11 @@ export function Projects() {
   return (
     <section id="projects" className="relative">
       <div className="site-container py-28 lg:hidden">
-        <Reveal>
-          <SectionHeading
-            eyebrow="Projects"
-            title="Selected Projects"
-            description="Scroll through full-stack, mobile, and academic projects that reflect how I learn by building."
-          />
-        </Reveal>
+        <SectionHeading
+          eyebrow="Projects"
+          title="Selected Projects"
+          description="Scroll through full-stack, mobile, and academic projects that reflect how I learn by building."
+        />
 
         <div className="mt-14 space-y-16">
           {projects.map((project, index) => (

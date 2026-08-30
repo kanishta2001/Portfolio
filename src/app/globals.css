@@ -11,6 +11,9 @@
   --foreground: #fffcf2;
   --muted: #ccc5b9;
   --border: rgba(204, 197, 185, 0.16);
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 280ms;
+  --duration-medium: 620ms;
 }
 
 @theme inline {
@@ -44,7 +47,7 @@
 
 html {
   overflow-x: clip;
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   scroll-padding-top: 6rem;
 }
 
@@ -55,6 +58,7 @@ body {
     radial-gradient(circle at 12% 10%, rgba(235, 94, 40, 0.11), transparent 30rem),
     radial-gradient(circle at 88% 24%, rgba(204, 197, 185, 0.07), transparent 28rem),
     var(--background);
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-inter), Arial, sans-serif;
 }
@@ -87,6 +91,55 @@ button:focus-visible {
   backdrop-filter: blur(16px);
 }
 
+.interactive-surface {
+  transition:
+    transform var(--duration-fast) var(--ease-premium),
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+.spotlight-card {
+  --spotlight-x: 50%;
+  --spotlight-y: 50%;
+  position: relative;
+  isolation: isolate;
+  transform-style: preserve-3d;
+}
+
+.spotlight-card::after {
+  position: absolute;
+  z-index: 10;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    24rem circle at var(--spotlight-x) var(--spotlight-y),
+    rgba(235, 94, 40, 0.13),
+    transparent 68%
+  );
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-fast) ease;
+}
+
+.premium-button .button-arrow {
+  transition: transform var(--duration-fast) var(--ease-premium);
+}
+
+.premium-button:hover .button-arrow {
+  transform: translateX(0.25rem);
+}
+
+.ambient-orb {
+  animation: ambient-drift 12s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.ambient-orb-reverse {
+  animation-direction: alternate-reverse;
+  animation-duration: 15s;
+}
+
 .text-gradient {
   background: linear-gradient(110deg, #eb5e28 5%, #f08055 55%, #fffcf2 112%);
   -webkit-background-clip: text;
@@ -94,12 +147,32 @@ button:focus-visible {
   color: transparent;
 }
 
-.scroll-section-perspective {
-  perspective: 1400px;
-}
-
 .marquee-mask {
   mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+@keyframes ambient-drift {
+  from {
+    transform: translate3d(-1.5rem, -0.5rem, 0) scale(0.96);
+  }
+  to {
+    transform: translate3d(1.75rem, 1rem, 0) scale(1.04);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .interactive-surface:hover {
+    transform: translateY(-0.35rem);
+    border-color: rgba(235, 94, 40, 0.42);
+    box-shadow:
+      0 28px 90px rgba(18, 17, 16, 0.38),
+      0 0 0 1px rgba(235, 94, 40, 0.08),
+      0 0 42px rgba(235, 94, 40, 0.1);
+  }
+
+  .spotlight-card:hover::after {
+    opacity: 1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -114,5 +187,9 @@ button:focus-visible {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .ambient-orb {
+    animation: none !important;
   }
 }

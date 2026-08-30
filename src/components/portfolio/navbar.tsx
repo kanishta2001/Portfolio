@@ -1,7 +1,6 @@
 "use client";
 
 import { Menu, X } from "lucide-react";
-import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { navigation } from "@/data/portfolio";
 
@@ -61,27 +60,27 @@ export function Navbar() {
 
   return (
     <>
-      <aside className="pointer-events-none fixed inset-y-0 left-0 z-50 hidden w-48 items-center px-7 lg:flex">
-        <nav aria-label="Main navigation" className="pointer-events-auto flex flex-col items-start gap-8">
+      <aside className="pointer-events-none fixed inset-y-0 left-0 z-50 hidden w-[7.5rem] items-center px-6 lg:flex">
+        <nav aria-label="Main navigation" className="pointer-events-auto flex flex-col items-start gap-4">
           {navigation.map((item) => (
             <a
               key={item.href}
               href={item.href}
               onClick={() => handleNavigation(item.href)}
               aria-current={activeSection === item.href.slice(1) ? "page" : undefined}
-              className={`relative py-1 text-[0.8rem] font-semibold tracking-[0.2em] uppercase transition-colors duration-300 ${
+              className={`group relative flex min-h-11 items-center text-[0.8rem] leading-5 font-semibold tracking-[0.2em] uppercase transition-colors duration-300 ${
                 activeSection === item.href.slice(1) ? "text-white" : "text-zinc-500 hover:text-zinc-200"
               }`}
             >
               {item.label}
-              {activeSection === item.href.slice(1) && (
-                <motion.span
-                  layoutId="active-navigation-underline"
-                  aria-hidden="true"
-                  className="absolute -bottom-1.5 left-0 h-px w-14 bg-highlight shadow-[0_0_10px_rgba(235,94,40,0.5)]"
-                  transition={{ type: "spring", stiffness: 420, damping: 34, mass: 0.45 }}
-                />
-              )}
+              <span
+                aria-hidden="true"
+                className={`absolute bottom-0 left-0 h-px w-full origin-left bg-highlight shadow-[0_0_10px_rgba(235,94,40,0.45)] transition-transform duration-300 ease-out ${
+                  activeSection === item.href.slice(1)
+                    ? "scale-x-100"
+                    : "scale-x-0 group-hover:scale-x-100"
+                }`}
+              />
             </a>
           ))}
         </nav>
