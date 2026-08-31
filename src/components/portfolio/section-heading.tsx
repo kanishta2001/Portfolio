@@ -8,6 +8,7 @@ type SectionHeadingProps = {
   title: ReactNode;
   description?: ReactNode;
   centered?: boolean;
+  size?: "default" | "compact" | "slightlyCompact";
 };
 
 export function SectionHeading({
@@ -15,8 +16,27 @@ export function SectionHeading({
   title,
   description,
   centered = false,
+  size = "default",
 }: SectionHeadingProps) {
   const reduceMotion = useReducedMotion();
+  const eyebrowSize =
+    size === "compact"
+      ? "px-3.5 py-1.5 text-[0.6rem]"
+      : size === "slightlyCompact"
+        ? "px-4 py-2 text-[0.65rem]"
+        : "px-4 py-2 text-[0.68rem]";
+  const titleSize =
+    size === "compact"
+      ? "text-3xl sm:text-[2.55rem]"
+      : size === "slightlyCompact"
+        ? "text-[2.15rem] sm:text-[2.85rem]"
+        : "text-4xl sm:text-5xl";
+  const descriptionSize =
+    size === "compact"
+      ? "mt-4 text-sm leading-6"
+      : size === "slightlyCompact"
+        ? "mt-5 text-[0.95rem] leading-7"
+        : "mt-5 text-base leading-7";
 
   return (
     <motion.div
@@ -27,7 +47,7 @@ export function SectionHeading({
       variants={{ visible: { transition: { staggerChildren: 0.09 } } }}
     >
       <motion.div
-        className={`mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.025] px-4 py-2 text-[0.68rem] font-medium tracking-[0.24em] text-zinc-400 uppercase ${
+        className={`mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.025] font-medium tracking-[0.24em] text-zinc-400 uppercase ${eyebrowSize} ${
           centered ? "justify-center" : ""
         }`}
         variants={{
@@ -40,7 +60,7 @@ export function SectionHeading({
       </motion.div>
       <div className="overflow-hidden pb-1">
         <motion.h2
-          className="font-heading text-4xl leading-tight font-bold tracking-[-0.035em] text-white sm:text-5xl"
+          className={`font-heading leading-tight font-bold tracking-[-0.035em] text-white ${titleSize}`}
           variants={{
             hidden: { opacity: 0, y: "105%" },
             visible: {
@@ -55,7 +75,7 @@ export function SectionHeading({
       </div>
       {description && (
         <motion.p
-          className="mt-5 text-base leading-7 text-zinc-400"
+          className={`${descriptionSize} text-zinc-400`}
           variants={{
             hidden: { opacity: 0, y: 18, filter: "blur(7px)" },
             visible: {

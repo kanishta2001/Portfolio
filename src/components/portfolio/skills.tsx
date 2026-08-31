@@ -56,24 +56,25 @@ export function Skills() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section id="skills" className="relative overflow-hidden py-12 sm:py-16 lg:py-24">
+    <section id="skills" className="relative overflow-hidden py-11 sm:py-15 lg:py-[5.7rem]">
       <div
         aria-hidden="true"
         className="absolute top-1/2 left-1/2 h-80 w-[70%] -translate-x-1/2 -translate-y-1/2 bg-primary/8 blur-[120px]"
       />
 
-      <div className="site-container relative">
+      <div className="site-container relative max-w-[70.3rem]">
         <SectionHeading
           eyebrow="Skills"
           title="Tools I Work With"
           description="Languages, technologies, and tools I use to build clean interfaces, structured APIs, and dependable full-stack applications."
+          size="slightlyCompact"
         />
 
-        <div className="mt-14 space-y-12 sm:mt-16 sm:space-y-16">
+        <div className="mt-[3.325rem] space-y-[2.85rem] sm:mt-[3.8rem] sm:space-y-[3.8rem]">
           {skillGroups.map((group, index) => (
             <motion.article
               key={group.title}
-              className="grid min-w-0 items-center gap-7 lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-10"
+              className="grid min-w-0 items-center gap-6 lg:grid-cols-[13.3rem_minmax(0,1fr)] lg:gap-9"
               initial={reduceMotion ? false : { opacity: 0, y: 26, filter: "blur(6px)" }}
               whileInView={
                 reduceMotion ? undefined : { opacity: 1, y: 0, filter: "blur(0px)" }
@@ -86,12 +87,12 @@ export function Skills() {
               }}
             >
               <div className="flex items-start gap-4 lg:block">
-                <span className="font-mono text-xs text-highlight/75">0{index + 1}</span>
+                <span className="font-mono text-[0.71rem] text-highlight/75">0{index + 1}</span>
                 <div className="lg:mt-4">
-                  <h3 className="font-heading text-xl font-semibold text-white sm:text-2xl">
+                  <h3 className="font-heading text-[1.2rem] font-semibold text-white sm:text-[1.425rem]">
                     {group.title}
                   </h3>
-                  <p className="mt-2 max-w-sm text-sm leading-6 text-zinc-500">
+                  <p className="mt-2 max-w-sm text-[0.83rem] leading-[1.425rem] text-zinc-500">
                     {group.description}
                   </p>
                 </div>
@@ -104,7 +105,7 @@ export function Skills() {
           ))}
         </div>
 
-        <p className="mt-14 text-center text-xs tracking-[0.16em] text-zinc-600 uppercase">
+        <p className="mt-[3.325rem] text-center text-[0.71rem] tracking-[0.16em] text-zinc-600 uppercase">
           Scroll to move the tools · Motion pauses while the page is idle
         </p>
       </div>

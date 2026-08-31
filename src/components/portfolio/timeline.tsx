@@ -85,16 +85,16 @@ function TimelineNode({
       }}
       aria-hidden="true"
       data-timeline-node="true"
-      className="absolute top-8 left-4 z-20 size-3 -translate-x-1/2 rounded-full border bg-background md:left-1/2"
+      className="absolute top-7 left-4 z-20 size-2.5 -translate-x-1/2 rounded-full border bg-background md:left-1/2"
       style={{ borderColor, boxShadow: nodeShadow }}
     >
       <motion.span
         data-timeline-node-glow="true"
-        className="absolute inset-[2px] rounded-full bg-highlight shadow-[0_0_20px_rgba(138,172,190,0.95)]"
+        className="absolute inset-[1.5px] rounded-full bg-highlight shadow-[0_0_18px_rgba(138,172,190,0.92)]"
         style={{ opacity: visibleReached, scale: coreScale }}
       />
       <motion.span
-        className="absolute -inset-1 rounded-full border border-highlight/60"
+        className="absolute -inset-0.5 rounded-full border border-highlight/60"
         style={{ opacity: ringOpacity, scale: ringScale }}
       />
     </motion.span>
@@ -120,7 +120,11 @@ export function Timeline() {
     mass: 0.38,
   });
   const progress = reduceMotion ? scrollYProgress : smoothProgress;
-  const progressHeight = useTransform(progress, (latest) => {
+  const progressScale = useTransform(progress, (latest) => {
+    const clamped = Math.min(1, Math.max(0, latest));
+    return clamped;
+  });
+  const lineHeadTop = useTransform(progress, (latest) => {
     const clamped = Math.min(1, Math.max(0, latest));
     return `${clamped * 100}%`;
   });
@@ -162,7 +166,7 @@ export function Timeline() {
   }, [railHeight, railTop]);
 
   return (
-    <div className="relative mt-20 sm:mt-24 lg:mt-32">
+    <div className="relative mt-16 sm:mt-20 lg:mt-24">
       <div className="site-container relative">
         <motion.div
           className="border-t border-white/12 pt-10 sm:pt-12"
@@ -182,28 +186,28 @@ export function Timeline() {
           </p>
         </motion.div>
 
-        <div ref={trackRef} className="relative mt-16 sm:mt-20">
+        <div ref={trackRef} className="relative mx-auto mt-12 max-w-5xl sm:mt-14">
           <motion.div
             ref={railRef}
             aria-hidden="true"
             data-timeline-rail="true"
-            className="pointer-events-none absolute left-4 z-0 w-px -translate-x-1/2 md:left-1/2"
+            className="pointer-events-none absolute left-4 z-10 w-3 -translate-x-1/2 md:left-1/2"
             style={{ top: railTop, height: railHeight }}
           >
-            <span className="absolute inset-0 bg-white/12" />
+            <span className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 rounded-full bg-[#435465]/80 shadow-[0_0_8px_rgba(67,84,101,0.35)]" />
             <motion.span
               data-timeline-progress="true"
-              className="absolute top-0 left-1/2 w-[2px] -translate-x-1/2 bg-gradient-to-b from-highlight via-primary to-secondary shadow-[0_0_16px_rgba(138,172,190,0.62)]"
-              style={{ height: progressHeight }}
-            >
-              <motion.span
-                className="absolute -right-[5px] -bottom-1.5 size-3 rounded-full bg-highlight shadow-[0_0_0_5px_rgba(138,172,190,0.12),0_0_24px_rgba(138,172,190,0.9)]"
-                style={{ opacity: lineHeadOpacity }}
-              />
-            </motion.span>
+              className="absolute inset-y-0 left-1/2 w-[2px] origin-top -translate-x-1/2 rounded-full bg-[linear-gradient(to_bottom,#f8faff_0%,#e0e7ff_42%,#8aacbe_78%,#64788a_100%)] shadow-[0_0_8px_rgba(224,231,255,0.9),0_0_18px_rgba(138,172,190,0.72)]"
+              style={{ scaleY: progressScale }}
+            />
+            <motion.span
+              data-timeline-line-head="true"
+              className="absolute left-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-highlight shadow-[0_0_0_4px_rgba(138,172,190,0.13),0_0_22px_rgba(224,231,255,0.95)]"
+              style={{ top: lineHeadTop, opacity: lineHeadOpacity }}
+            />
           </motion.div>
 
-          <ol>
+          <ol className="relative z-10">
             {timeline.map((item, index) => {
               const isLeft = index % 2 === 0;
               const isFirst = index === 0;
@@ -212,14 +216,8 @@ export function Timeline() {
               return (
                 <li
                   key={item.year}
-                  className="relative mb-20 pl-12 last:mb-0 sm:mb-24 md:grid md:grid-cols-[minmax(0,1fr)_4rem_minmax(0,1fr)] md:pl-0 lg:mb-28"
+                  className="relative mb-12 min-h-28 pl-11 last:mb-0 sm:mb-14 md:grid md:min-h-32 md:grid-cols-[minmax(0,1fr)_2.5rem_minmax(0,1fr)] md:items-start md:pl-0 lg:mb-16"
                 >
-                  <span
-                    aria-hidden="true"
-                    className={`absolute top-[2.16rem] h-px bg-white/12 max-md:left-4 max-md:w-8 ${
-                      isLeft ? "md:right-1/2 md:w-8" : "md:left-1/2 md:w-8"
-                    }`}
-                  />
                   <TimelineNode
                     progress={progress}
                     railRef={railRef}
@@ -238,29 +236,27 @@ export function Timeline() {
                   />
 
                   <motion.article
-                    className={`glass-card interactive-surface relative overflow-hidden rounded-[1.65rem] p-6 sm:p-8 ${
-                      isLeft ? "md:col-start-1" : "md:col-start-3"
+                    className={`relative max-w-[28rem] py-1 ${
+                      isLeft
+                        ? "md:col-start-1 md:justify-self-end md:pr-5 md:text-right"
+                        : "md:col-start-3 md:pl-5"
                     }`}
                     initial={
                       reduceMotion
                         ? false
-                        : { opacity: 0, y: 36, x: isLeft ? -18 : 18, filter: "blur(8px)" }
+                        : { opacity: 0, y: 24, x: isLeft ? -14 : 14, filter: "blur(6px)" }
                     }
                     whileInView={{ opacity: 1, y: 0, x: 0, filter: "blur(0px)" }}
                     viewport={{ once: true, amount: 0.32 }}
                     transition={{ duration: reduceMotion ? 0 : 0.58, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    <span
-                      aria-hidden="true"
-                      className="absolute -top-20 -right-16 size-44 rounded-full bg-primary/8 blur-3xl"
-                    />
-                    <span className="relative inline-flex rounded-full border border-highlight/20 bg-highlight/8 px-3.5 py-1.5 text-xs font-semibold tracking-[0.08em] text-highlight">
+                    <span className="relative text-[0.66rem] font-medium tracking-[0.08em] text-zinc-300">
                       {item.year}
                     </span>
-                    <h3 className="font-heading relative mt-6 text-xl font-semibold text-white sm:text-2xl">
+                    <h3 className="font-heading relative mt-1.5 text-lg leading-snug font-semibold text-white sm:text-xl">
                       {item.title}
                     </h3>
-                    <p className="relative mt-3 text-sm leading-7 text-zinc-400">
+                    <p className="relative mt-1.5 text-xs leading-5 text-zinc-300 sm:text-[0.82rem] sm:leading-6">
                       {item.description}
                     </p>
                   </motion.article>

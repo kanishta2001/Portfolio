@@ -57,7 +57,7 @@ function ProjectVisual({ project, index, compact = false }: ProjectVisualProps) 
 
   if (project.image) {
     return (
-      <div className="group/project relative aspect-[16/10] w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#07101a] transition-colors duration-500 hover:border-highlight/35">
+      <div className="group/project relative aspect-[16/10] w-full overflow-hidden rounded-[1.3rem] border border-white/10 bg-[#07101a] transition-colors duration-500 hover:border-highlight/35">
         <Image
           src={project.image}
           alt={`${project.title} project screenshot`}
@@ -74,7 +74,7 @@ function ProjectVisual({ project, index, compact = false }: ProjectVisualProps) 
     <div
       role="img"
       aria-label={`${project.title} clean project preview placeholder`}
-      className="group/project relative aspect-[16/10] w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#07101a] shadow-[0_28px_90px_rgba(0,0,0,0.36)] transition-[transform,border-color,box-shadow] duration-500 ease-out hover:-translate-y-1 hover:border-highlight/35 hover:shadow-[0_32px_100px_rgba(0,0,0,0.46)]"
+      className="group/project relative aspect-[16/10] w-full overflow-hidden rounded-[1.3rem] border border-white/10 bg-[#07101a] shadow-[0_24px_76px_rgba(0,0,0,0.36)] transition-[transform,border-color,box-shadow] duration-500 ease-out hover:-translate-y-1 hover:border-highlight/35 hover:shadow-[0_28px_84px_rgba(0,0,0,0.46)]"
     >
       <div
         aria-hidden="true"
@@ -85,24 +85,24 @@ function ProjectVisual({ project, index, compact = false }: ProjectVisualProps) 
       />
       <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:28px_28px]" />
 
-      <div className="relative flex h-full flex-col p-5 transition-transform duration-700 ease-out group-hover/project:scale-[1.015] sm:p-7">
+      <div className="relative flex h-full flex-col p-4 transition-transform duration-700 ease-out group-hover/project:scale-[1.015] sm:p-6">
         <div className="flex items-center justify-between border-b border-white/8 pb-4">
           <div className="flex items-center gap-2" aria-hidden="true">
             <span className="size-2 rounded-full" style={{ backgroundColor: accent.from }} />
             <span className="size-2 rounded-full bg-white/15" />
             <span className="size-2 rounded-full bg-white/8" />
           </div>
-          <span className="text-[0.6rem] tracking-[0.22em] text-zinc-600 uppercase">
+          <span className="text-[0.52rem] tracking-[0.22em] text-zinc-600 uppercase">
             <ProjectFloatText stagger={0.012}>Project preview</ProjectFloatText>
           </span>
         </div>
 
         <div className="grid flex-1 grid-cols-[1fr_auto] items-center gap-5">
           <div>
-            <p className="text-[0.62rem] tracking-[0.2em] text-zinc-500 uppercase">
+            <p className="text-[0.54rem] tracking-[0.2em] text-zinc-500 uppercase">
               <ProjectFloatText stagger={0.01}>{project.category}</ProjectFloatText>
             </p>
-            <p className={`font-heading mt-3 font-bold tracking-[-0.06em] text-white/14 ${compact ? "text-5xl" : "text-7xl xl:text-8xl"}`}>
+            <p className={`font-heading mt-2.5 font-bold tracking-[-0.06em] text-white/14 ${compact ? "text-[2.55rem]" : "text-6xl xl:text-7xl"}`}>
               <ProjectFloatText splitBy="char">{projectMarks[index]}</ProjectFloatText>
             </p>
           </div>
@@ -117,7 +117,7 @@ function ProjectVisual({ project, index, compact = false }: ProjectVisualProps) 
           </div>
         </div>
 
-        <div className="flex items-center justify-between border-t border-white/8 pt-4 text-[0.62rem] tracking-[0.16em] text-zinc-600 uppercase">
+        <div className="flex items-center justify-between border-t border-white/8 pt-3.5 text-[0.54rem] tracking-[0.16em] text-zinc-600 uppercase">
           <span><ProjectFloatText stagger={0.01}>{project.title}</ProjectFloatText></span>
           <span><ProjectFloatText stagger={0.01}>Screenshot pending</ProjectFloatText></span>
         </div>
@@ -148,7 +148,7 @@ function ProjectPreview({ project, index, compact = false }: ProjectVisualProps)
 function ProjectLinks({ project }: { project: Project }) {
   if (!project.githubUrl && !project.liveUrl) {
     return (
-      <p className="text-xs tracking-[0.16em] text-zinc-600 uppercase">
+      <p className="text-[0.65rem] tracking-[0.16em] text-zinc-600 uppercase">
         <ProjectFloatText stagger={0.01}>Links will be added when available</ProjectFloatText>
       </p>
     );
@@ -161,7 +161,7 @@ function ProjectLinks({ project }: { project: Project }) {
           href={project.githubUrl}
           target="_blank"
           rel="noreferrer"
-          className="premium-button group inline-flex min-h-11 items-center gap-2 rounded-full border border-white/12 bg-white/[0.035] px-5 text-sm font-medium text-zinc-200 transition-[transform,border-color,background-color] duration-300 hover:-translate-y-0.5 hover:border-highlight/40 hover:bg-highlight/10 hover:text-white"
+          className="premium-button group inline-flex min-h-10 items-center gap-2 rounded-full border border-white/12 bg-white/[0.035] px-4 text-xs font-medium text-zinc-200 transition-[transform,border-color,background-color] duration-300 hover:-translate-y-0.5 hover:border-highlight/40 hover:bg-highlight/10 hover:text-white"
         >
           <FiGithub size={16} aria-hidden="true" />
           <ProjectFloatText stagger={0.015}>Repository</ProjectFloatText>
@@ -173,7 +173,7 @@ function ProjectLinks({ project }: { project: Project }) {
           href={project.liveUrl}
           target="_blank"
           rel="noreferrer"
-          className="premium-button group inline-flex min-h-11 items-center gap-2 rounded-full border border-white/12 bg-white/[0.035] px-5 text-sm font-medium text-zinc-200 transition-[transform,border-color,background-color] duration-300 hover:-translate-y-0.5 hover:border-highlight/40 hover:bg-highlight/10 hover:text-white"
+          className="premium-button group inline-flex min-h-10 items-center gap-2 rounded-full border border-white/12 bg-white/[0.035] px-4 text-xs font-medium text-zinc-200 transition-[transform,border-color,background-color] duration-300 hover:-translate-y-0.5 hover:border-highlight/40 hover:bg-highlight/10 hover:text-white"
         >
           <ExternalLink className="button-arrow" size={16} aria-hidden="true" />
           <ProjectFloatText stagger={0.015}>Live Demo</ProjectFloatText>
@@ -192,7 +192,7 @@ export function Projects() {
       <ProjectFloatText stagger={0.01}>{project.description}</ProjectFloatText>
     ),
     eyebrow: (
-      <div className="flex items-center justify-between text-xs tracking-[0.18em] text-zinc-500 uppercase">
+      <div className="flex items-center justify-between text-[0.65rem] tracking-[0.18em] text-zinc-500 uppercase">
         <span>
           <ProjectFloatText stagger={0.012}>
             {`[ ${String(index + 1).padStart(2, "0")} / ${String(projects.length).padStart(2, "0")} ]`}
@@ -207,20 +207,20 @@ export function Projects() {
     ),
     details: (
       <>
-        <p className="mt-3 text-[0.68rem] tracking-[0.19em] text-highlight uppercase">
+        <p className="mt-2.5 text-[0.58rem] tracking-[0.19em] text-highlight uppercase">
           <ProjectFloatText stagger={0.01}>{project.category}</ProjectFloatText>
         </p>
-        <p className="mt-5 text-base font-medium text-zinc-300">
+        <p className="mt-4 text-sm font-medium text-zinc-300">
           <ProjectFloatText stagger={0.012}>{project.subtitle}</ProjectFloatText>
         </p>
-        <ul className="mt-7 flex max-w-xl flex-wrap gap-2" aria-label={`${project.title} technologies`}>
+        <ul className="mt-6 flex max-w-xl flex-wrap gap-2" aria-label={`${project.title} technologies`}>
           {project.technologies.map((technology) => (
-            <li key={technology} className="rounded-full border border-white/10 px-3.5 py-1.5 text-[0.68rem] text-zinc-400">
+            <li key={technology} className="rounded-full border border-white/10 px-3 py-1 text-[0.58rem] text-zinc-400">
               <ProjectFloatText stagger={0.01}>{technology}</ProjectFloatText>
             </li>
           ))}
         </ul>
-        <div className="mt-8">
+        <div className="mt-7">
           <ProjectLinks project={project} />
         </div>
       </>
@@ -230,7 +230,8 @@ export function Projects() {
 
   return (
     <section id="projects" className="relative">
-      <div className="site-container py-12 sm:py-16 lg:hidden">
+      <div className="site-container py-10 sm:py-14 lg:hidden">
+        <div className="mx-auto w-[85%]">
         <SectionHeading
           eyebrow={<ProjectFloatText stagger={0.012}>Projects</ProjectFloatText>}
           title={<ProjectFloatText splitBy="char">Selected Projects</ProjectFloatText>}
@@ -239,13 +240,14 @@ export function Projects() {
               Scroll through full-stack, mobile, and academic projects that reflect how I learn by building.
             </ProjectFloatText>
           }
+          size="compact"
         />
 
-        <div className="mt-14 space-y-16">
+        <div className="mt-12 space-y-14">
           {projects.map((project, index) => (
             <Reveal key={project.title}>
               <article>
-                <div className="mb-5 flex items-center justify-between text-xs tracking-[0.18em] text-zinc-500 uppercase">
+                <div className="mb-4 flex items-center justify-between text-[0.65rem] tracking-[0.18em] text-zinc-500 uppercase">
                   <span>
                     <ProjectFloatText stagger={0.012}>
                       {`[ ${String(index + 1).padStart(2, "0")} / ${String(projects.length).padStart(2, "0")} ]`}
@@ -254,27 +256,28 @@ export function Projects() {
                   {project.status && <span className="text-highlight"><ProjectFloatText stagger={0.012}>{project.status}</ProjectFloatText></span>}
                 </div>
                 <ProjectPreview project={project} index={index} compact />
-                <p className="mt-6 text-xs tracking-[0.16em] text-highlight uppercase"><ProjectFloatText stagger={0.01}>{project.category}</ProjectFloatText></p>
-                <h3 className="font-heading mt-3 text-3xl font-bold tracking-tight text-white"><ProjectFloatText splitBy="char">{project.title}</ProjectFloatText></h3>
-                <p className="mt-2 text-sm font-medium text-zinc-300"><ProjectFloatText stagger={0.012}>{project.subtitle}</ProjectFloatText></p>
-                <p className="mt-4 text-sm leading-7 text-zinc-400"><ProjectFloatText stagger={0.01}>{project.description}</ProjectFloatText></p>
-                <ul className="mt-6 flex flex-wrap gap-2" aria-label={`${project.title} technologies`}>
+                <p className="mt-5 text-[0.65rem] tracking-[0.16em] text-highlight uppercase"><ProjectFloatText stagger={0.01}>{project.category}</ProjectFloatText></p>
+                <h3 className="font-heading mt-2.5 text-2xl font-bold tracking-tight text-white"><ProjectFloatText splitBy="char">{project.title}</ProjectFloatText></h3>
+                <p className="mt-2 text-xs font-medium text-zinc-300"><ProjectFloatText stagger={0.012}>{project.subtitle}</ProjectFloatText></p>
+                <p className="mt-3.5 text-xs leading-6 text-zinc-400"><ProjectFloatText stagger={0.01}>{project.description}</ProjectFloatText></p>
+                <ul className="mt-5 flex flex-wrap gap-2" aria-label={`${project.title} technologies`}>
                   {project.technologies.map((technology) => (
-                    <li key={technology} className="rounded-full border border-white/10 px-3 py-1.5 text-[0.68rem] text-zinc-400">
+                    <li key={technology} className="rounded-full border border-white/10 px-2.5 py-1 text-[0.58rem] text-zinc-400">
                       <ProjectFloatText stagger={0.01}>{technology}</ProjectFloatText>
                     </li>
                   ))}
                 </ul>
-                <div className="mt-7">
+                <div className="mt-6">
                   <ProjectLinks project={project} />
                 </div>
               </article>
             </Reveal>
           ))}
         </div>
+        </div>
       </div>
 
-      <div className="site-container hidden py-24 lg:block">
+      <div className="site-container hidden max-w-[63rem] py-20 lg:block">
         <SectionHeading
           eyebrow={<ProjectFloatText stagger={0.012}>Projects</ProjectFloatText>}
           title={<ProjectFloatText splitBy="char">Selected Projects</ProjectFloatText>}
@@ -283,6 +286,7 @@ export function Projects() {
               Scroll through full-stack, mobile, and academic projects. The preview stays in place and changes as each project comes into focus.
             </ProjectFloatText>
           }
+          size="compact"
         />
         <StickyScroll content={stickyContent} className="mt-8" />
       </div>

@@ -89,7 +89,7 @@ export function StickyScroll({ content, className = "" }: StickyScrollProps) {
   return (
     <div
       ref={containerRef}
-      className={`relative grid grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] gap-16 xl:gap-24 ${className}`}
+      className={`relative grid grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] gap-12 xl:gap-16 ${className}`}
     >
       <div className="min-w-0">
         {content.map((item, index) => (
@@ -98,14 +98,14 @@ export function StickyScroll({ content, className = "" }: StickyScrollProps) {
             ref={(panel) => {
               panelRefs.current[index] = panel;
             }}
-            className="flex min-h-[70svh] flex-col justify-center py-16"
+            className="flex min-h-[64svh] flex-col justify-center py-12"
             aria-current={index === activeCard ? "step" : undefined}
           >
             {item.eyebrow}
-            <h3 className="font-heading mt-5 max-w-xl text-4xl leading-[1.04] font-bold tracking-[-0.045em] text-white xl:text-5xl">
+            <h3 className="font-heading mt-4 max-w-xl text-3xl leading-[1.04] font-bold tracking-[-0.045em] text-white xl:text-4xl">
               {item.titleContent ?? item.title}
             </h3>
-            <p className="mt-5 max-w-xl text-sm leading-7 text-zinc-400 xl:text-base xl:leading-8">
+            <p className="mt-4 max-w-xl text-[0.78rem] leading-6 text-zinc-400 xl:text-sm xl:leading-7">
               {item.descriptionContent ?? item.description}
             </p>
             {item.details}
@@ -114,7 +114,7 @@ export function StickyScroll({ content, className = "" }: StickyScrollProps) {
       </div>
 
       <div className="relative min-w-0">
-        <div className="sticky top-[14svh] flex h-[72svh] items-center">
+        <div className="sticky top-[16svh] flex h-[66svh] items-center">
           <div className="w-full">
             <div
               className="relative aspect-[16/10] w-full"
