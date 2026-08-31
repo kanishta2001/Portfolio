@@ -1,66 +1,34 @@
-import { Braces, Layers3, Sparkles } from "lucide-react";
 import { profile } from "@/data/portfolio";
 import { Reveal } from "./reveal";
-import { SectionHeading } from "./section-heading";
-
-const strengths = [
-  {
-    title: "Clean Interfaces",
-    description: "Building readable, responsive UI with React and Tailwind CSS.",
-    icon: Layers3,
-  },
-  {
-    title: "Structured APIs",
-    description: "Designing clear REST endpoints with ASP.NET Core and Entity Framework Core.",
-    icon: Braces,
-  },
-  {
-    title: "Always Learning",
-    description: "Turning new concepts into small, practical software projects.",
-    icon: Sparkles,
-  },
-] as const;
+import { Timeline } from "./timeline";
 
 export function About() {
   return (
-    <section id="about" className="py-28 sm:py-36">
+    <section id="about" className="py-12 sm:py-16 lg:py-24">
       <div className="site-container">
-        <SectionHeading eyebrow="About" title="About Me" />
-
-        <div className="mt-12 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-          <Reveal className="glass-card interactive-surface rounded-[1.75rem] p-7 sm:p-9">
-            <p className="max-w-2xl text-lg leading-8 text-zinc-300 sm:text-xl sm:leading-9">
-              {profile.bio}
-            </p>
-            <div className="mt-10 border-t border-white/10 pt-7">
-              <p className="font-heading text-xl font-semibold text-white">What I care about</p>
-              <p className="mt-3 max-w-xl text-sm leading-7 text-zinc-500">
-                Clear code, thoughtful user experiences, and steady improvement through building real things.
-              </p>
-            </div>
-          </Reveal>
-
-          <div className="space-y-4">
-            {strengths.map((strength, index) => {
-              const Icon = strength.icon;
-
-              return (
-                <Reveal key={strength.title} delay={index * 0.08}>
-                  <article className="glass-card interactive-surface group flex items-start gap-4 rounded-3xl p-6">
-                    <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-indigo-400 text-white shadow-[0_10px_30px_rgba(235,94,40,0.18)] transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-105">
-                      <Icon size={20} aria-hidden="true" />
-                    </div>
-                    <div>
-                      <h3 className="font-heading text-lg font-semibold text-white">{strength.title}</h3>
-                      <p className="mt-2 text-sm leading-6 text-zinc-400">{strength.description}</p>
-                    </div>
-                  </article>
-                </Reveal>
-              );
-            })}
+        <Reveal>
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.025] px-4 py-2 text-[0.68rem] font-medium tracking-[0.24em] text-zinc-400 uppercase">
+            <span className="size-1.5 rounded-full bg-highlight shadow-[0_0_10px_rgba(138,172,190,0.8)]" />
+            About
           </div>
+          <h2 className="font-heading mt-7 text-4xl leading-tight font-bold tracking-[-0.035em] text-white sm:text-5xl">
+            About Me
+          </h2>
+          <div className="mt-6 h-px w-full bg-white/12" />
+        </Reveal>
+
+        <div className="mt-8 max-w-[70rem] space-y-7 sm:mt-10 sm:space-y-8">
+          {profile.about.map((paragraph, index) => (
+            <Reveal key={paragraph} delay={index * 0.055}>
+              <p className="text-lg leading-[1.75] font-normal text-zinc-300 sm:text-xl lg:text-[1.3rem]">
+                {paragraph}
+              </p>
+            </Reveal>
+          ))}
         </div>
       </div>
+
+      <Timeline />
     </section>
   );
 }

@@ -1,11 +1,12 @@
-import { ArrowDownToLine, ArrowUpRight, BriefcaseBusiness, GitBranch, Mail } from "lucide-react";
+import { ArrowDownToLine, ArrowUpRight, Mail } from "lucide-react";
+import { FiGithub, FiLinkedin } from "react-icons/fi";
 import { profile } from "@/data/portfolio";
 import { Reveal } from "./reveal";
 import { SectionHeading } from "./section-heading";
 
 export function Contact() {
   return (
-    <section id="contact" className="py-28 sm:py-36">
+    <section id="contact" className="py-12 sm:py-16 lg:py-24">
       <div className="site-container">
         <Reveal>
           <div className="glass-card interactive-surface relative overflow-hidden rounded-[2rem] px-6 py-12 sm:px-10 sm:py-16 lg:px-16">
@@ -28,7 +29,7 @@ export function Contact() {
               <div className="grid gap-3 sm:grid-cols-2 lg:w-80 lg:grid-cols-1">
                 <a
                   href={`mailto:${profile.email}`}
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-indigo-400 px-5 text-sm font-semibold text-white transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(235,94,40,0.25)]"
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-indigo-400 px-5 text-sm font-semibold text-background transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(138,172,190,0.25)]"
                 >
                   <Mail size={17} aria-hidden="true" /> Email Me
                 </a>
@@ -38,7 +39,7 @@ export function Contact() {
                   rel="noreferrer"
                   className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-white/10 bg-white/[0.025] px-5 text-sm font-medium text-zinc-300 transition-colors hover:bg-white/[0.06] hover:text-white"
                 >
-                  <GitBranch size={17} aria-hidden="true" /> GitHub
+                  <FiGithub size={17} aria-hidden="true" /> GitHub
                 </a>
                 <a
                   href={profile.linkedin}
@@ -46,7 +47,7 @@ export function Contact() {
                   rel="noreferrer"
                   className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-white/10 bg-white/[0.025] px-5 text-sm font-medium text-zinc-300 transition-colors hover:bg-white/[0.06] hover:text-white"
                 >
-                  <BriefcaseBusiness size={17} aria-hidden="true" /> LinkedIn
+                  <FiLinkedin size={17} aria-hidden="true" /> LinkedIn
                 </a>
                 <a
                   href={profile.cv}

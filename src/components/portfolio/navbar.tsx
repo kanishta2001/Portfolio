@@ -75,7 +75,7 @@ export function Navbar() {
               {item.label}
               <span
                 aria-hidden="true"
-                className={`absolute bottom-0 left-0 h-px w-full origin-left bg-highlight shadow-[0_0_10px_rgba(235,94,40,0.45)] transition-transform duration-300 ease-out ${
+                className={`absolute bottom-0 left-0 h-px w-full origin-left bg-highlight shadow-[0_0_10px_rgba(138,172,190,0.48)] transition-transform duration-300 ease-out ${
                   activeSection === item.href.slice(1)
                     ? "scale-x-100"
                     : "scale-x-0 group-hover:scale-x-100"
@@ -86,10 +86,10 @@ export function Navbar() {
         </nav>
       </aside>
 
-      <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 lg:hidden">
+      <header className="fixed inset-x-0 top-0 z-50 px-5 pt-5 lg:hidden">
         <nav
           aria-label="Mobile navigation"
-          className="mx-auto flex items-center justify-between rounded-2xl bg-background/90 px-5 py-3.5 shadow-[0_12px_40px_rgba(18,17,16,0.24)] backdrop-blur-xl"
+          className="mx-auto flex items-center justify-between px-1 py-2"
         >
           <a
             href="#home"
@@ -111,7 +111,7 @@ export function Navbar() {
           </button>
 
           {isOpen && (
-            <div id="mobile-menu" className="glass-card absolute inset-x-4 top-[4.85rem] flex flex-col rounded-2xl p-3">
+            <div id="mobile-menu" className="glass-card absolute inset-x-5 top-[4.65rem] flex flex-col rounded-2xl p-3">
               {navigation.map((item) => (
                 <a
                   key={item.href}

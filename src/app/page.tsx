@@ -5,7 +5,6 @@ import { Hero } from "@/components/portfolio/hero";
 import { Navbar } from "@/components/portfolio/navbar";
 import { Projects } from "@/components/portfolio/projects";
 import { Skills } from "@/components/portfolio/skills";
-import { Timeline } from "@/components/portfolio/timeline";
 
 export default function Home() {
   return (
@@ -17,12 +16,11 @@ export default function Home() {
         Skip to content
       </a>
       <Navbar />
-      <div className="lg:pl-[7.5rem]">
+      <div className="lg:px-[7.5rem]">
         <main id="main-content">
           <Hero />
           <About />
           <Projects />
-          <Timeline />
           <Skills />
           <Contact />
         </main>

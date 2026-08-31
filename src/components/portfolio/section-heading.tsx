@@ -34,7 +34,7 @@ export function SectionHeading({
           visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.52 } },
         }}
       >
-        <span className="size-1.5 rounded-full bg-highlight shadow-[0_0_10px_rgba(235,94,40,0.8)]" />
+        <span className="size-1.5 rounded-full bg-highlight shadow-[0_0_10px_rgba(138,172,190,0.8)]" />
         {eyebrow}
       </motion.div>
       <div className="overflow-hidden pb-1">

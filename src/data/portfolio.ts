@@ -19,13 +19,18 @@ export const profile = {
   linkedin: "https://www.linkedin.com/in/nipun-karunarathne",
   cv: "/cv/Nipun-Karunarathna-CV.pdf",
   bio: "I am a Software Engineering undergraduate focused on full-stack web development. I enjoy creating clean user interfaces, building structured backend APIs, and learning modern technologies by working on practical projects.",
+  about: [
+    "Hi, I'm Nipun Karunarathna. I am a Software Engineering undergraduate at NSBM Green University in Sri Lanka, with a strong interest in full-stack web development and building practical software solutions.",
+    "I enjoy working across both frontend and backend development using technologies such as React, Next.js, C#, ASP.NET Core, and SQL Server. I am especially interested in creating clean user interfaces, structured APIs, and applications that are simple, useful, and well organized.",
+    "Through academic and personal project work, I continue to improve my programming knowledge, problem-solving skills, and understanding of how complete software applications are designed and developed.",
+    "I am currently focused on strengthening my full-stack development skills and preparing for software engineering internship opportunities where I can gain real-world experience and continue growing as a developer.",
+  ],
 } as const;
 
 export const navigation = [
   { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
   { label: "Projects", href: "#projects" },
-  { label: "Tracing My Path", href: "#journey" },
   { label: "Skills", href: "#skills" },
   { label: "Contact", href: "#contact" },
 ] as const;
@@ -130,18 +135,12 @@ export const skillGroups = [
     ],
   },
   {
-    title: "Backend",
-    description: "Structured APIs and maintainable application logic.",
+    title: "Backend & Database",
+    description: "Structured APIs, maintainable application logic, and reliable relational data.",
     skills: [
       { name: "C#", logo: "/skills/csharp.svg" },
       { name: ".NET", logo: "/skills/dotnetcore.svg" },
       { name: "ASP.NET Core Web API", logo: "/skills/dotnetcore.svg" },
-    ],
-  },
-  {
-    title: "Database",
-    description: "Reliable data access and relational data modelling.",
-    skills: [
       { name: "SQL Server", logo: "/skills/sqlserver.svg" },
       { name: "Entity Framework Core", logo: "/skills/entityframeworkcore.svg" },
     ],
