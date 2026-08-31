@@ -53,7 +53,10 @@ function renderHighlightedText(text: string) {
 
 export function About() {
   return (
-    <section id="about" className="py-12 sm:py-16 lg:py-24">
+    <section
+  id="about"
+  className="scroll-mt-[-130px] py-12 sm:py-16 lg:py-24"
+>
       <div className="site-container">
         <Reveal>
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.025] px-4 py-2 text-[0.68rem] font-medium tracking-[0.24em] text-zinc-400 uppercase">

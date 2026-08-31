@@ -85,6 +85,7 @@ export const projects: Project[] = [
       "An academic project created to organize and manage core student information.",
     technologies: ["Java"],
     category: "Academic Project",
+    image: "/projects/student-management-system.png",
   },
   {
     title: "Auction Management System",

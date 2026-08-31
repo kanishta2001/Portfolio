@@ -41,6 +41,7 @@ function ProjectVisual({ project, index, compact = false }: ProjectVisualProps) 
     );
   }
 
+
   return (
     <div
       role="img"
