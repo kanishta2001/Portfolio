@@ -48,6 +48,13 @@ function useSpotlightEffect(config: Required<SpotlightConfig>) {
       canvas.width = Math.round(viewportWidth * pixelRatio);
       canvas.height = Math.round(viewportHeight * pixelRatio);
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      scheduleDraw();
+    };
+
+    const scheduleDraw = () => {
+      if (animationFrame === 0) {
+        animationFrame = window.requestAnimationFrame(draw);
+      }
     };
 
     const handlePointerMove = (event: PointerEvent) => {
@@ -59,15 +66,19 @@ function useSpotlightEffect(config: Required<SpotlightConfig>) {
         currentY = targetY;
         isVisible = true;
       }
+
+      scheduleDraw();
     };
 
     const handlePointerLeave = () => {
       isVisible = false;
       targetX = -1000;
       targetY = -1000;
+      scheduleDraw();
     };
 
     const draw = () => {
+      animationFrame = 0;
       context.clearRect(0, 0, viewportWidth, viewportHeight);
 
       if (isVisible) {
@@ -87,22 +98,25 @@ function useSpotlightEffect(config: Required<SpotlightConfig>) {
         gradient.addColorStop(1, "rgba(0,0,0,0)");
         context.fillStyle = gradient;
         context.fillRect(0, 0, viewportWidth, viewportHeight);
-      }
 
-      animationFrame = window.requestAnimationFrame(draw);
+        // Keep smoothing only while the spotlight is catching the pointer.
+        // Once settled, preserve the canvas instead of redrawing every frame.
+        if (Math.abs(targetX - currentX) > 0.25 || Math.abs(targetY - currentY) > 0.25) {
+          scheduleDraw();
+        }
+      }
     };
 
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
     window.addEventListener("pointermove", handlePointerMove, { passive: true });
     document.documentElement.addEventListener("mouseleave", handlePointerLeave);
-    animationFrame = window.requestAnimationFrame(draw);
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
       window.removeEventListener("pointermove", handlePointerMove);
       document.documentElement.removeEventListener("mouseleave", handlePointerLeave);
-      window.cancelAnimationFrame(animationFrame);
+      if (animationFrame !== 0) window.cancelAnimationFrame(animationFrame);
     };
   }, [config.brightness, config.color, config.radius, config.smoothing]);
 

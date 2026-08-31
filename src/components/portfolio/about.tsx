@@ -1,6 +1,55 @@
+import type { ReactNode } from "react";
 import { profile } from "@/data/portfolio";
 import { Reveal } from "./reveal";
 import { Timeline } from "./timeline";
+
+const highlightedTerms = [
+  { value: "Nipun Karunarathna", className: "font-semibold text-sky-300 drop-shadow-[0_0_12px_rgba(125,211,252,0.5)]" },
+  { value: "NSBM Green University", className: "font-semibold text-sky-300 drop-shadow-[0_0_12px_rgba(125,211,252,0.5)]" },
+  {
+    value: "React, Next.js, C#, ASP.NET Core, and SQL Server",
+    className: "font-semibold text-cyan-300 drop-shadow-[0_0_12px_rgba(103,232,249,0.5)]",
+  },
+] as const;
+
+function renderHighlightedText(text: string) {
+  const pattern = new RegExp(
+    highlightedTerms
+      .map(({ value }) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+      .join("|"),
+    "gi",
+  );
+
+  const nodes: ReactNode[] = [];
+  let lastIndex = 0;
+
+  for (const match of text.matchAll(pattern)) {
+    const [matchedText] = match;
+    const index = match.index ?? 0;
+
+    if (index > lastIndex) {
+      nodes.push(text.slice(lastIndex, index));
+    }
+
+    const term = highlightedTerms.find(
+      ({ value }) => value.toLowerCase() === matchedText.toLowerCase(),
+    );
+
+    nodes.push(
+      <span key={`${matchedText}-${index}`} className={term?.className ?? ""}>
+        {matchedText}
+      </span>,
+    );
+
+    lastIndex = index + matchedText.length;
+  }
+
+  if (lastIndex < text.length) {
+    nodes.push(text.slice(lastIndex));
+  }
+
+  return nodes;
+}
 
 export function About() {
   return (
@@ -21,7 +70,7 @@ export function About() {
           {profile.about.map((paragraph, index) => (
             <Reveal key={paragraph} delay={index * 0.055}>
               <p className="text-lg leading-[1.75] font-normal text-zinc-300 sm:text-xl lg:text-[1.3rem]">
-                {paragraph}
+                {renderHighlightedText(paragraph)}
               </p>
             </Reveal>
           ))}

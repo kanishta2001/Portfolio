@@ -105,7 +105,9 @@ export default function ScrollFloat({
             scroller,
             start: scrollStart,
             end: scrollEnd,
-            scrub: 0.24,
+            // Play once at the same viewport point instead of scrubbing dozens
+            // of text tweens on every scroll frame in the Projects section.
+            toggleActions: "play none none none",
             once: true,
             fastScrollEnd: true,
             invalidateOnRefresh: true,

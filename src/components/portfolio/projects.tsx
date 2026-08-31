@@ -4,7 +4,6 @@ import { ArrowUpRight, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import { FiGithub } from "react-icons/fi";
 import { projects, type Project } from "@/data/portfolio";
-import ScrollFloat from "@/components/ui/scroll-float";
 import { StickyScroll, type StickyScrollItem } from "@/components/ui/sticky-scroll-reveal";
 import TiltedCard from "@/components/ui/tilted-card";
 import { Reveal } from "./reveal";
@@ -23,34 +22,6 @@ type ProjectVisualProps = {
   index: number;
   compact?: boolean;
 };
-
-type ProjectFloatTextProps = {
-  children: string;
-  className?: string;
-  stagger?: number;
-  splitBy?: "char" | "word";
-};
-
-function ProjectFloatText({
-  children,
-  className = "",
-  stagger = 0.024,
-  splitBy = "word",
-}: ProjectFloatTextProps) {
-  return (
-    <ScrollFloat
-      animationDuration={0.85}
-      ease="power3.out"
-      scrollStart="top 92%"
-      scrollEnd="bottom 62%"
-      stagger={stagger}
-      splitBy={splitBy}
-      containerClassName={className}
-    >
-      {children}
-    </ScrollFloat>
-  );
-}
 
 function ProjectVisual({ project, index, compact = false }: ProjectVisualProps) {
   const accent = projectAccents[index];
@@ -93,17 +64,17 @@ function ProjectVisual({ project, index, compact = false }: ProjectVisualProps) 
             <span className="size-2 rounded-full bg-white/8" />
           </div>
           <span className="text-[0.52rem] tracking-[0.22em] text-zinc-600 uppercase">
-            <ProjectFloatText stagger={0.012}>Project preview</ProjectFloatText>
+            Project preview
           </span>
         </div>
 
         <div className="grid flex-1 grid-cols-[1fr_auto] items-center gap-5">
           <div>
             <p className="text-[0.54rem] tracking-[0.2em] text-zinc-500 uppercase">
-              <ProjectFloatText stagger={0.01}>{project.category}</ProjectFloatText>
+              {project.category}
             </p>
             <p className={`font-heading mt-2.5 font-bold tracking-[-0.06em] text-white/14 ${compact ? "text-[2.55rem]" : "text-6xl xl:text-7xl"}`}>
-              <ProjectFloatText splitBy="char">{projectMarks[index]}</ProjectFloatText>
+              {projectMarks[index]}
             </p>
           </div>
           <div className="w-24 space-y-2 sm:w-36" aria-hidden="true">
@@ -118,8 +89,8 @@ function ProjectVisual({ project, index, compact = false }: ProjectVisualProps) 
         </div>
 
         <div className="flex items-center justify-between border-t border-white/8 pt-3.5 text-[0.54rem] tracking-[0.16em] text-zinc-600 uppercase">
-          <span><ProjectFloatText stagger={0.01}>{project.title}</ProjectFloatText></span>
-          <span><ProjectFloatText stagger={0.01}>Screenshot pending</ProjectFloatText></span>
+          <span>{project.title}</span>
+          <span>Screenshot pending</span>
         </div>
       </div>
     </div>
@@ -149,7 +120,7 @@ function ProjectLinks({ project }: { project: Project }) {
   if (!project.githubUrl && !project.liveUrl) {
     return (
       <p className="text-[0.65rem] tracking-[0.16em] text-zinc-600 uppercase">
-        <ProjectFloatText stagger={0.01}>Links will be added when available</ProjectFloatText>
+        Links will be added when available
       </p>
     );
   }
@@ -164,7 +135,7 @@ function ProjectLinks({ project }: { project: Project }) {
           className="premium-button group inline-flex min-h-10 items-center gap-2 rounded-full border border-white/12 bg-white/[0.035] px-4 text-xs font-medium text-zinc-200 transition-[transform,border-color,background-color] duration-300 hover:-translate-y-0.5 hover:border-highlight/40 hover:bg-highlight/10 hover:text-white"
         >
           <FiGithub size={16} aria-hidden="true" />
-          <ProjectFloatText stagger={0.015}>Repository</ProjectFloatText>
+          Repository
           <ArrowUpRight className="button-arrow" size={14} aria-hidden="true" />
         </a>
       )}
@@ -176,7 +147,7 @@ function ProjectLinks({ project }: { project: Project }) {
           className="premium-button group inline-flex min-h-10 items-center gap-2 rounded-full border border-white/12 bg-white/[0.035] px-4 text-xs font-medium text-zinc-200 transition-[transform,border-color,background-color] duration-300 hover:-translate-y-0.5 hover:border-highlight/40 hover:bg-highlight/10 hover:text-white"
         >
           <ExternalLink className="button-arrow" size={16} aria-hidden="true" />
-          <ProjectFloatText stagger={0.015}>Live Demo</ProjectFloatText>
+          Live Demo
         </a>
       )}
     </div>
@@ -187,36 +158,26 @@ export function Projects() {
   const stickyContent: StickyScrollItem[] = projects.map((project, index) => ({
     title: project.title,
     description: project.description,
-    titleContent: <ProjectFloatText splitBy="char">{project.title}</ProjectFloatText>,
-    descriptionContent: (
-      <ProjectFloatText stagger={0.01}>{project.description}</ProjectFloatText>
-    ),
     eyebrow: (
       <div className="flex items-center justify-between text-[0.65rem] tracking-[0.18em] text-zinc-500 uppercase">
-        <span>
-          <ProjectFloatText stagger={0.012}>
-            {`[ ${String(index + 1).padStart(2, "0")} / ${String(projects.length).padStart(2, "0")} ]`}
-          </ProjectFloatText>
-        </span>
+        <span>{`[ ${String(index + 1).padStart(2, "0")} / ${String(projects.length).padStart(2, "0")} ]`}</span>
         {project.status && (
-          <span className="text-highlight">
-            <ProjectFloatText stagger={0.012}>{project.status}</ProjectFloatText>
-          </span>
+          <span className="text-highlight">{project.status}</span>
         )}
       </div>
     ),
     details: (
       <>
         <p className="mt-2.5 text-[0.58rem] tracking-[0.19em] text-highlight uppercase">
-          <ProjectFloatText stagger={0.01}>{project.category}</ProjectFloatText>
+          {project.category}
         </p>
         <p className="mt-4 text-sm font-medium text-zinc-300">
-          <ProjectFloatText stagger={0.012}>{project.subtitle}</ProjectFloatText>
+          {project.subtitle}
         </p>
         <ul className="mt-6 flex max-w-xl flex-wrap gap-2" aria-label={`${project.title} technologies`}>
           {project.technologies.map((technology) => (
             <li key={technology} className="rounded-full border border-white/10 px-3 py-1 text-[0.58rem] text-zinc-400">
-              <ProjectFloatText stagger={0.01}>{technology}</ProjectFloatText>
+              {technology}
             </li>
           ))}
         </ul>
@@ -233,8 +194,8 @@ export function Projects() {
       <div className="site-container py-10 sm:py-14 lg:hidden">
         <div className="mx-auto w-[85%]">
         <SectionHeading
-          eyebrow={<ProjectFloatText stagger={0.012}>Projects</ProjectFloatText>}
-          title={<ProjectFloatText splitBy="char">Selected Projects</ProjectFloatText>}
+          eyebrow="Projects"
+          title="Selected Projects"
           size="compact"
         />
 
@@ -243,22 +204,18 @@ export function Projects() {
             <Reveal key={project.title}>
               <article>
                 <div className="mb-4 flex items-center justify-between text-[0.65rem] tracking-[0.18em] text-zinc-500 uppercase">
-                  <span>
-                    <ProjectFloatText stagger={0.012}>
-                      {`[ ${String(index + 1).padStart(2, "0")} / ${String(projects.length).padStart(2, "0")} ]`}
-                    </ProjectFloatText>
-                  </span>
-                  {project.status && <span className="text-highlight"><ProjectFloatText stagger={0.012}>{project.status}</ProjectFloatText></span>}
+                  <span>{`[ ${String(index + 1).padStart(2, "0")} / ${String(projects.length).padStart(2, "0")} ]`}</span>
+                  {project.status && <span className="text-highlight">{project.status}</span>}
                 </div>
                 <ProjectPreview project={project} index={index} compact />
-                <p className="mt-5 text-[0.65rem] tracking-[0.16em] text-highlight uppercase"><ProjectFloatText stagger={0.01}>{project.category}</ProjectFloatText></p>
-                <h3 className="font-heading mt-2.5 text-2xl font-bold tracking-tight text-white"><ProjectFloatText splitBy="char">{project.title}</ProjectFloatText></h3>
-                <p className="mt-2 text-xs font-medium text-zinc-300"><ProjectFloatText stagger={0.012}>{project.subtitle}</ProjectFloatText></p>
-                <p className="mt-3.5 text-xs leading-6 text-zinc-400"><ProjectFloatText stagger={0.01}>{project.description}</ProjectFloatText></p>
+                <p className="mt-5 text-[0.65rem] tracking-[0.16em] text-highlight uppercase">{project.category}</p>
+                <h3 className="font-heading mt-2.5 text-2xl font-bold tracking-tight text-white">{project.title}</h3>
+                <p className="mt-2 text-xs font-medium text-zinc-300">{project.subtitle}</p>
+                <p className="mt-3.5 text-xs leading-6 text-zinc-400">{project.description}</p>
                 <ul className="mt-5 flex flex-wrap gap-2" aria-label={`${project.title} technologies`}>
                   {project.technologies.map((technology) => (
                     <li key={technology} className="rounded-full border border-white/10 px-2.5 py-1 text-[0.58rem] text-zinc-400">
-                      <ProjectFloatText stagger={0.01}>{technology}</ProjectFloatText>
+                      {technology}
                     </li>
                   ))}
                 </ul>
@@ -274,8 +231,8 @@ export function Projects() {
 
       <div className="site-container hidden max-w-[63rem] py-20 lg:block">
         <SectionHeading
-          eyebrow={<ProjectFloatText stagger={0.012}>Projects</ProjectFloatText>}
-          title={<ProjectFloatText splitBy="char">Selected Projects</ProjectFloatText>}
+          eyebrow="Projects"
+          title="Selected Projects"
           size="compact"
         />
         <StickyScroll content={stickyContent} className="mt-8" />

@@ -93,13 +93,17 @@ export function StickyScroll({ content, className = "" }: StickyScrollProps) {
     >
       <div className="min-w-0">
         {content.map((item, index) => (
-          <article
+          <motion.article
             key={item.title}
             ref={(panel) => {
               panelRefs.current[index] = panel;
             }}
             className="flex min-h-[64svh] flex-col justify-center py-12"
             aria-current={index === activeCard ? "step" : undefined}
+            initial={reduceMotion ? false : { opacity: 0, y: 24, filter: "blur(6px)" }}
+            whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, amount: 0.32 }}
+            transition={{ duration: reduceMotion ? 0 : 0.58, ease: [0.22, 1, 0.36, 1] }}
           >
             {item.eyebrow}
             <h3 className="font-heading mt-4 max-w-xl text-3xl leading-[1.04] font-bold tracking-[-0.045em] text-white xl:text-4xl">
@@ -109,7 +113,7 @@ export function StickyScroll({ content, className = "" }: StickyScrollProps) {
               {item.descriptionContent ?? item.description}
             </p>
             {item.details}
-          </article>
+          </motion.article>
         ))}
       </div>
 

@@ -93,6 +93,7 @@ export const projects: Project[] = [
       "A learning project for managing auction-related information and user interactions on the web.",
     technologies: ["JavaScript"],
     category: "Academic Project",
+    image: "/projects/auction-management-system.png",
   },
 ];
 

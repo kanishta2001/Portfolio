@@ -165,11 +165,11 @@ export function Timeline() {
           <p className="text-[0.68rem] font-medium tracking-[0.24em] text-zinc-500 uppercase">
             About / Journey
           </p>
-          <h2 className="font-heading mt-4 text-3xl font-bold tracking-[-0.035em] text-white sm:text-4xl">
+          <h2 className="font-heading mt-4 text-center text-3xl font-bold tracking-[-0.035em] text-white sm:text-4xl">
             Journey
           </h2>
-          <p className="mt-4 max-w-2xl text-sm leading-7 text-zinc-400 sm:text-base">
-            A scroll through how my development journey has grown, one practical step at a time.
+          <p className="mx-auto mt-4 max-w-2xl text-center text-sm leading-7 text-zinc-400 sm:text-base">
+            A simple look at how I grew as a developer.
           </p>
         </motion.div>
 

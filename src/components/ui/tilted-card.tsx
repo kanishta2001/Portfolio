@@ -7,7 +7,7 @@ import {
   useReducedMotion,
   useSpring,
 } from "motion/react";
-import { useRef, useState, type CSSProperties, type MouseEvent, type ReactNode } from "react";
+import { useRef, type CSSProperties, type MouseEvent, type ReactNode } from "react";
 
 type TiltedCardProps = {
   children?: ReactNode;
@@ -62,7 +62,7 @@ export default function TiltedCard({
   const scale = useSpring(1, springValues);
   const opacity = useSpring(0);
   const rotateFigcaption = useSpring(0, { stiffness: 350, damping: 30, mass: 1 });
-  const [lastY, setLastY] = useState(0);
+  const lastY = useRef(0);
 
   const handleMouse = (event: MouseEvent<HTMLElement>) => {
     if (!ref.current || reduceMotion) return;
@@ -75,8 +75,8 @@ export default function TiltedCard({
     rotateYSource.set((offsetX / (rect.width / 2)) * rotateAmplitude);
     x.set(event.clientX - rect.left);
     y.set(event.clientY - rect.top);
-    rotateFigcaption.set(-(offsetY - lastY) * 0.6);
-    setLastY(offsetY);
+    rotateFigcaption.set(-(offsetY - lastY.current) * 0.6);
+    lastY.current = offsetY;
   };
 
   const handleMouseEnter = () => {
@@ -91,6 +91,7 @@ export default function TiltedCard({
     rotateXSource.set(0);
     rotateYSource.set(0);
     rotateFigcaption.set(0);
+    lastY.current = 0;
   };
 
   return (
