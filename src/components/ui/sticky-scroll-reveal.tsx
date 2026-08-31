@@ -12,6 +12,8 @@ import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
 export type StickyScrollItem = {
   title: string;
   description: string;
+  titleContent?: ReactNode;
+  descriptionContent?: ReactNode;
   content: ReactNode;
   eyebrow?: ReactNode;
   details?: ReactNode;
@@ -96,15 +98,15 @@ export function StickyScroll({ content, className = "" }: StickyScrollProps) {
             ref={(panel) => {
               panelRefs.current[index] = panel;
             }}
-            className="flex min-h-[78svh] flex-col justify-center py-20"
+            className="flex min-h-[70svh] flex-col justify-center py-16"
             aria-current={index === activeCard ? "step" : undefined}
           >
             {item.eyebrow}
             <h3 className="font-heading mt-5 max-w-xl text-4xl leading-[1.04] font-bold tracking-[-0.045em] text-white xl:text-5xl">
-              {item.title}
+              {item.titleContent ?? item.title}
             </h3>
             <p className="mt-5 max-w-xl text-sm leading-7 text-zinc-400 xl:text-base xl:leading-8">
-              {item.description}
+              {item.descriptionContent ?? item.description}
             </p>
             {item.details}
           </article>
@@ -123,10 +125,10 @@ export function StickyScroll({ content, className = "" }: StickyScrollProps) {
                 <motion.div
                   key={content[activeCard].title}
                   className="absolute inset-0"
-                  initial={reduceMotion ? false : { opacity: 0, scale: 0.965, filter: "blur(8px)" }}
-                  animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                  exit={reduceMotion ? undefined : { opacity: 0, scale: 1.025, filter: "blur(7px)" }}
-                  transition={{ duration: reduceMotion ? 0 : 0.52, ease: [0.22, 1, 0.36, 1] }}
+                  initial={reduceMotion ? false : { opacity: 0, scale: 0.985, y: 12 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={reduceMotion ? undefined : { opacity: 0, scale: 1.012, y: -8 }}
+                  transition={{ duration: reduceMotion ? 0 : 0.42, ease: [0.22, 1, 0.36, 1] }}
                 >
                   {content[activeCard].content}
                 </motion.div>
@@ -135,7 +137,7 @@ export function StickyScroll({ content, className = "" }: StickyScrollProps) {
 
             <div className="mt-5 flex items-center justify-between" aria-label="Project preview progress">
               <span className="text-[0.65rem] tracking-[0.2em] text-zinc-500 uppercase">
-                {String(activeCard + 1).padStart(2, "0")} / {String(content.length).padStart(2, "0")}
+                {`${String(activeCard + 1).padStart(2, "0")} / ${String(content.length).padStart(2, "0")}`}
               </span>
               <div className="flex items-center gap-2" aria-hidden="true">
                 {content.map((item, index) => (

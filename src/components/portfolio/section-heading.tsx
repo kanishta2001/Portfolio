@@ -1,11 +1,12 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
+import type { ReactNode } from "react";
 
 type SectionHeadingProps = {
-  eyebrow: string;
-  title: string;
-  description?: string;
+  eyebrow: ReactNode;
+  title: ReactNode;
+  description?: ReactNode;
   centered?: boolean;
 };
 

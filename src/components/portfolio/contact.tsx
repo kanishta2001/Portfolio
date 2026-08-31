@@ -1,5 +1,6 @@
 import { ArrowDownToLine, ArrowUpRight, Mail } from "lucide-react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
+import BorderGlow from "@/components/ui/border-glow";
 import { profile } from "@/data/portfolio";
 import { Reveal } from "./reveal";
 import { SectionHeading } from "./section-heading";
@@ -9,10 +10,22 @@ export function Contact() {
     <section id="contact" className="py-12 sm:py-16 lg:py-24">
       <div className="site-container">
         <Reveal>
-          <div className="glass-card interactive-surface relative overflow-hidden rounded-[2rem] px-6 py-12 sm:px-10 sm:py-16 lg:px-16">
-            <div aria-hidden="true" className="ambient-orb absolute -top-32 -right-20 size-96 rounded-full bg-primary/30 blur-[100px]" />
-            <div aria-hidden="true" className="ambient-orb ambient-orb-reverse absolute -bottom-40 -left-24 size-80 rounded-full bg-secondary/25 blur-[100px]" />
-            <div className="relative grid items-end gap-10 lg:grid-cols-[1fr_auto]">
+          <BorderGlow
+            className="interactive-surface"
+            edgeSensitivity={28}
+            glowColor="203 36 64"
+            backgroundColor="#08111b"
+            borderRadius={32}
+            glowRadius={34}
+            glowIntensity={0.72}
+            coneSpread={24}
+            colors={["#8aacbe", "#e0e7ff", "#64788a"]}
+            fillOpacity={0.28}
+          >
+            <div className="relative overflow-hidden px-6 py-12 sm:px-10 sm:py-16 lg:px-16">
+              <div aria-hidden="true" className="ambient-orb absolute -top-32 -right-20 size-96 rounded-full bg-primary/30 blur-[100px]" />
+              <div aria-hidden="true" className="ambient-orb ambient-orb-reverse absolute -bottom-40 -left-24 size-80 rounded-full bg-secondary/25 blur-[100px]" />
+              <div className="relative grid items-end gap-10 lg:grid-cols-[1fr_auto]">
               <div>
                 <SectionHeading eyebrow="Contact" title="Let’s Work Together" />
                 <p className="mt-6 max-w-2xl text-base leading-8 text-zinc-400 sm:text-lg">
@@ -57,8 +70,9 @@ export function Contact() {
                   <ArrowDownToLine size={17} aria-hidden="true" /> Download CV
                 </a>
               </div>
+              </div>
             </div>
-          </div>
+          </BorderGlow>
         </Reveal>
       </div>
     </section>

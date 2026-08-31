@@ -260,6 +260,45 @@ button:focus-visible {
   color: #dbe8f3;
 }
 
+/* ScrollVelocity rows stay still until page scroll velocity gives them motion. */
+.skill-velocity-mask {
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.skill-velocity-strip {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  padding-right: clamp(2rem, 4vw, 3.5rem);
+}
+
+.skill-velocity-item {
+  display: inline-flex;
+  min-width: max-content;
+  align-items: center;
+  gap: 0.85rem;
+  color: #c7d2df;
+  font-family: var(--font-space-grotesk), Arial, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+}
+
+.skill-velocity-item > svg {
+  width: 2.4rem;
+  height: 2.4rem;
+  flex: none;
+}
+
+.skill-velocity-image {
+  width: 2.4rem;
+  height: 2.4rem;
+  flex: none;
+  object-fit: contain;
+  filter: saturate(0.85) brightness(0.96);
+}
+
 @media (hover: hover) and (pointer: fine) {
   .logo-loop-item-scale:hover {
     transform: scale(1.12);

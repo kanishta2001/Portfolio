@@ -1,47 +1,54 @@
 "use client";
 
+import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
 import { FiGithub } from "react-icons/fi";
 import { SiNextdotjs } from "react-icons/si";
+import ScrollVelocity from "@/components/ui/scroll-velocity";
 import { skillGroups } from "@/data/portfolio";
 import { SectionHeading } from "./section-heading";
-import LogoLoop, { type LogoItem } from "./skills-effects/logo-loop";
 
 type SkillGroup = (typeof skillGroups)[number];
 
-function SkillLogoLoop({ group, index }: { group: SkillGroup; index: number }) {
-  const logos: LogoItem[] = group.skills.map((skill) => {
-    // React icons keep dark brand marks clear on this dark background.
-    if (skill.name === "Next.js") {
-      return { node: <SiNextdotjs />, title: skill.name };
-    }
-
-    if (skill.name === "GitHub") {
-      return { node: <FiGithub />, title: skill.name };
-    }
-
-    return {
-      src: skill.logo,
-      alt: skill.name,
-      title: skill.name,
-      invert: "invert" in skill ? Boolean(skill.invert) : false,
-    };
-  });
-
+function SkillLogoStrip({ group }: { group: SkillGroup }) {
   return (
-    <LogoLoop
-      logos={logos}
-      speed={80}
-      direction="left"
-      logoHeight={65}
-      gap={40}
-      hoverSpeed={40}
-      scaleOnHover
-      fadeOut
-      fadeOutColor="#04080f"
-      ariaLabel={`${group.title} technologies`}
-      className={index % 2 === 1 ? "logo-loop-soft" : ""}
-    />
+    <span className="skill-velocity-strip">
+      {group.skills.map((skill) => (
+        <span key={skill.name} className="skill-velocity-item">
+          {skill.name === "Next.js" ? (
+            <SiNextdotjs aria-hidden="true" />
+          ) : skill.name === "GitHub" ? (
+            <FiGithub aria-hidden="true" />
+          ) : (
+            <Image
+              src={skill.logo}
+              alt=""
+              width={48}
+              height={48}
+              className={`skill-velocity-image ${"invert" in skill && skill.invert ? "invert" : ""}`}
+              draggable={false}
+            />
+          )}
+          <span>{skill.name}</span>
+        </span>
+      ))}
+    </span>
+  );
+}
+
+function SkillVelocityRow({ group, index }: { group: SkillGroup; index: number }) {
+  return (
+    <div role="region" aria-label={`${group.title} technologies`}>
+      <ScrollVelocity
+        texts={[<SkillLogoStrip key={group.title} group={group} />]}
+        velocity={index % 2 === 0 ? 10 : -10}
+        damping={30}
+        stiffness={300}
+        numCopies={5}
+        velocityMapping={{ input: [0, 1000], output: [0, 5] }}
+        parallaxClassName="skill-velocity-mask py-4"
+      />
+    </div>
   );
 }
 
@@ -91,14 +98,14 @@ export function Skills() {
               </div>
 
               <div className="relative min-w-0 overflow-hidden py-4">
-                <SkillLogoLoop group={group} index={index} />
+                <SkillVelocityRow group={group} index={index} />
               </div>
             </motion.article>
           ))}
         </div>
 
         <p className="mt-14 text-center text-xs tracking-[0.16em] text-zinc-600 uppercase">
-          Hover to slow and inspect · Motion respects reduced-motion settings
+          Scroll to move the tools · Motion pauses while the page is idle
         </p>
       </div>
     </section>

@@ -16,12 +16,13 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
       options={{
         anchors: true,
         autoRaf: true,
-        duration: 1.05,
-        easing: (time) => Math.min(1, 1.001 - 2 ** (-10 * time)),
+        // A short lerp keeps the premium inertia without making long sticky
+        // sections feel as though the wheel input is being held back.
+        lerp: 0.12,
         smoothWheel: true,
         syncTouch: false,
         touchMultiplier: 1.05,
-        wheelMultiplier: 0.86,
+        wheelMultiplier: 1,
       }}
     >
       {children}
