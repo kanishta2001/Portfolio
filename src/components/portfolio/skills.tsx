@@ -46,7 +46,9 @@ function SkillVelocityRow({ group, index }: { group: SkillGroup; index: number }
         stiffness={300}
         numCopies={5}
         velocityMapping={{ input: [0, 1000], output: [0, 5] }}
-        parallaxClassName="skill-velocity-mask py-4"
+        dragToScroll
+        dragSensitivity={1}
+        parallaxClassName="skill-velocity-mask py-2"
       />
     </div>
   );
@@ -70,11 +72,11 @@ export function Skills() {
           size="slightlyCompact"
         />
 
-        <div className="mt-[3.325rem] space-y-[2.85rem] sm:mt-[3.8rem] sm:space-y-[3.8rem]">
+        <div className="mt-8 space-y-6 sm:mt-10 sm:space-y-8">
           {skillGroups.map((group, index) => (
             <motion.article
               key={group.title}
-              className="grid min-w-0 items-center gap-6 lg:grid-cols-[13.3rem_minmax(0,1fr)] lg:gap-9"
+              className="grid min-w-0 items-center gap-4 lg:grid-cols-[13.3rem_minmax(0,1fr)] lg:gap-8"
               initial={reduceMotion ? false : { opacity: 0, y: 26, filter: "blur(6px)" }}
               whileInView={
                 reduceMotion ? undefined : { opacity: 1, y: 0, filter: "blur(0px)" }
@@ -88,7 +90,7 @@ export function Skills() {
             >
               <div className="flex items-start gap-4 lg:block">
                 <span className="font-mono text-[0.71rem] text-highlight/75">0{index + 1}</span>
-                <div className="lg:mt-4">
+                <div className="lg:mt-2.5">
                   <h3 className="font-heading text-[1.2rem] font-semibold text-white sm:text-[1.425rem]">
                     {group.title}
                   </h3>
@@ -98,16 +100,13 @@ export function Skills() {
                 </div>
               </div>
 
-              <div className="relative min-w-0 overflow-hidden py-4">
+              <div className="relative min-w-0 overflow-hidden py-2">
                 <SkillVelocityRow group={group} index={index} />
               </div>
             </motion.article>
           ))}
         </div>
 
-        <p className="mt-[3.325rem] text-center text-[0.71rem] tracking-[0.16em] text-zinc-600 uppercase">
-          Scroll to move the tools · Motion pauses while the page is idle
-        </p>
       </div>
     </section>
   );

@@ -16,6 +16,7 @@ import {
   useRef,
   useState,
   type CSSProperties,
+  type PointerEvent as ReactPointerEvent,
   type ReactNode,
   type RefObject,
 } from "react";
@@ -38,6 +39,8 @@ type ScrollVelocityProps = {
   scrollerClassName?: string;
   parallaxStyle?: CSSProperties;
   scrollerStyle?: CSSProperties;
+  dragToScroll?: boolean;
+  dragSensitivity?: number;
 };
 
 type VelocityTextProps = Omit<ScrollVelocityProps, "texts"> & {
@@ -82,6 +85,8 @@ function VelocityText({
   scrollerClassName = "",
   parallaxStyle,
   scrollerStyle,
+  dragToScroll = false,
+  dragSensitivity = 1,
 }: VelocityTextProps) {
   const reduceMotion = useReducedMotion();
   const baseX = useMotionValue(0);
@@ -96,6 +101,10 @@ function VelocityText({
     { clamp: false },
   );
   const copyRef = useRef<HTMLSpanElement>(null);
+  const draggingRef = useRef(false);
+  const lastPointerXRef = useRef(0);
+  const lastPointerTimeRef = useRef(0);
+  const dragVelocityRef = useRef(0);
   const copyWidth = useElementWidth(copyRef);
   const x = useTransform(baseX, (value) => {
     if (copyWidth === 0) return "0px";
@@ -107,25 +116,63 @@ function VelocityText({
   );
 
   useAnimationFrame((_time, delta) => {
-    if (reduceMotion || copyWidth === 0) return;
+    if (copyWidth === 0) return;
 
     // Unlike an auto-marquee, movement is zero while the page is idle. The
     // spring lets the row coast briefly and stop naturally after a scroll.
     const scrollDrivenSpeed = velocityFactor.get();
-    if (Math.abs(scrollDrivenSpeed) < 0.01) return;
+    if (!reduceMotion && Math.abs(scrollDrivenSpeed) >= 0.01) {
+      const moveBy = -baseVelocity * scrollDrivenSpeed * (delta / 1000) * 3;
+      baseX.set(baseX.get() + moveBy);
+    }
 
-    const moveBy = -baseVelocity * scrollDrivenSpeed * (delta / 1000) * 3;
-    baseX.set(baseX.get() + moveBy);
+    if (!reduceMotion && !draggingRef.current && Math.abs(dragVelocityRef.current) >= 0.5) {
+      baseX.set(baseX.get() + dragVelocityRef.current * (delta / 1000));
+      dragVelocityRef.current *= Math.exp(-delta / 180);
+    }
   });
+
+  const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (!dragToScroll || event.button !== 0) return;
+    draggingRef.current = true;
+    dragVelocityRef.current = 0;
+    lastPointerXRef.current = event.clientX;
+    lastPointerTimeRef.current = event.timeStamp;
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handlePointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (!dragToScroll || !draggingRef.current) return;
+
+    const deltaX = (event.clientX - lastPointerXRef.current) * dragSensitivity;
+    const deltaTime = Math.max(8, event.timeStamp - lastPointerTimeRef.current);
+    baseX.set(baseX.get() + deltaX);
+    dragVelocityRef.current = (deltaX / deltaTime) * 1000;
+    lastPointerXRef.current = event.clientX;
+    lastPointerTimeRef.current = event.timeStamp;
+  };
+
+  const stopDragging = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (!dragToScroll || !draggingRef.current) return;
+    draggingRef.current = false;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+  };
 
   return (
     <div
-      className={`relative overflow-hidden ${parallaxClassName}`.trim()}
-      style={parallaxStyle}
+      style={{ touchAction: dragToScroll ? "pan-y" : undefined, ...parallaxStyle }}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={stopDragging}
+      onPointerCancel={stopDragging}
+      onLostPointerCapture={stopDragging}
+      className={`relative overflow-hidden ${dragToScroll ? "cursor-grab select-none active:cursor-grabbing" : ""} ${parallaxClassName}`.trim()}
     >
       <motion.div
         className={`flex w-max whitespace-nowrap ${scrollerClassName}`.trim()}
-        style={{ x: reduceMotion ? 0 : x, ...scrollerStyle }}
+        style={{ x, ...scrollerStyle }}
       >
         {copies.map((copyIndex) => (
           <span

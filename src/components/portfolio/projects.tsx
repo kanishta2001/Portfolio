@@ -235,11 +235,6 @@ export function Projects() {
         <SectionHeading
           eyebrow={<ProjectFloatText stagger={0.012}>Projects</ProjectFloatText>}
           title={<ProjectFloatText splitBy="char">Selected Projects</ProjectFloatText>}
-          description={
-            <ProjectFloatText stagger={0.01}>
-              Scroll through full-stack, mobile, and academic projects that reflect how I learn by building.
-            </ProjectFloatText>
-          }
           size="compact"
         />
 
@@ -281,11 +276,6 @@ export function Projects() {
         <SectionHeading
           eyebrow={<ProjectFloatText stagger={0.012}>Projects</ProjectFloatText>}
           title={<ProjectFloatText splitBy="char">Selected Projects</ProjectFloatText>}
-          description={
-            <ProjectFloatText stagger={0.01}>
-              Scroll through full-stack, mobile, and academic projects. The preview stays in place and changes as each project comes into focus.
-            </ProjectFloatText>
-          }
           size="compact"
         />
         <StickyScroll content={stickyContent} className="mt-8" />

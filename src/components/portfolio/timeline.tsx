@@ -63,18 +63,19 @@ function TimelineNode({
     mass: 0.28,
   });
   const visibleReached = reduceMotion ? reached : animatedReached;
-  const coreScale = useTransform(visibleReached, [0, 1], [0.48, 1]);
-  const ringScale = useTransform(visibleReached, [0, 1], [0.7, 1.85]);
-  const ringOpacity = useTransform(visibleReached, [0, 1], [0, 0.5]);
+  const coreScale = useTransform(visibleReached, [0, 1], [0.65, 1]);
   const borderColor = useTransform(
     visibleReached,
     [0, 1],
-    ["rgba(224,231,255,0.26)", "rgba(224,231,255,1)"],
+    ["rgba(224,231,255,0.3)", "rgba(248,250,255,0.92)"],
   );
   const nodeShadow = useTransform(
     visibleReached,
     [0, 1],
-    ["0 0 0 rgba(138,172,190,0)", "0 0 18px rgba(138,172,190,0.78)"],
+    [
+      "0 0 0 rgba(224,231,255,0)",
+      "0 0 0 3px rgba(224,231,255,0.08), 0 0 13px rgba(224,231,255,0.72)",
+    ],
   );
 
   return (
@@ -85,17 +86,13 @@ function TimelineNode({
       }}
       aria-hidden="true"
       data-timeline-node="true"
-      className="absolute top-7 left-4 z-20 size-2.5 -translate-x-1/2 rounded-full border bg-background md:left-1/2"
+      className="absolute top-7 left-4 z-20 size-3 -translate-x-1/2 rounded-full border bg-background md:left-1/2"
       style={{ borderColor, boxShadow: nodeShadow }}
     >
       <motion.span
         data-timeline-node-glow="true"
-        className="absolute inset-[1.5px] rounded-full bg-highlight shadow-[0_0_18px_rgba(138,172,190,0.92)]"
+        className="absolute inset-[1px] rounded-full bg-[#f4f7ff] shadow-[0_0_10px_rgba(244,247,255,0.82)]"
         style={{ opacity: visibleReached, scale: coreScale }}
-      />
-      <motion.span
-        className="absolute -inset-0.5 rounded-full border border-highlight/60"
-        style={{ opacity: ringOpacity, scale: ringScale }}
       />
     </motion.span>
   );
@@ -124,16 +121,6 @@ export function Timeline() {
     const clamped = Math.min(1, Math.max(0, latest));
     return clamped;
   });
-  const lineHeadTop = useTransform(progress, (latest) => {
-    const clamped = Math.min(1, Math.max(0, latest));
-    return `${clamped * 100}%`;
-  });
-  const lineHeadOpacity = useTransform(
-    progress,
-    [0, 0.012, 0.985, 1],
-    [0, 1, 1, 0],
-    { clamp: true },
-  );
 
   useLayoutEffect(() => {
     const track = trackRef.current;
@@ -199,11 +186,6 @@ export function Timeline() {
               data-timeline-progress="true"
               className="absolute inset-y-0 left-1/2 w-[2px] origin-top -translate-x-1/2 rounded-full bg-[linear-gradient(to_bottom,#f8faff_0%,#e0e7ff_42%,#8aacbe_78%,#64788a_100%)] shadow-[0_0_8px_rgba(224,231,255,0.9),0_0_18px_rgba(138,172,190,0.72)]"
               style={{ scaleY: progressScale }}
-            />
-            <motion.span
-              data-timeline-line-head="true"
-              className="absolute left-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-highlight shadow-[0_0_0_4px_rgba(138,172,190,0.13),0_0_22px_rgba(224,231,255,0.95)]"
-              style={{ top: lineHeadTop, opacity: lineHeadOpacity }}
             />
           </motion.div>
 
