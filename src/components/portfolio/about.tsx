@@ -1,14 +1,15 @@
 import type { ReactNode } from "react";
 import { profile } from "@/data/portfolio";
+import { getSectionContentScaleStyle } from "@/lib/section-content-scale";
 import { Reveal } from "./reveal";
 import { Timeline } from "./timeline";
 
 const highlightedTerms = [
-  { value: "Nipun Karunarathna", className: "font-semibold text-sky-300 drop-shadow-[0_0_12px_rgba(125,211,252,0.5)]" },
-  { value: "NSBM Green University", className: "font-semibold text-sky-300 drop-shadow-[0_0_12px_rgba(125,211,252,0.5)]" },
+  { value: "Nipun Karunarathna", className: "text-[1.05em] font-semibold" },
+  { value: "NSBM Green University", className: "text-[1.05em] font-semibold" },
   {
-    value: "React, Next.js, C#, ASP.NET Core, and SQL Server",
-    className: "font-semibold text-cyan-300 drop-shadow-[0_0_12px_rgba(103,232,249,0.5)]",
+    value: "React, Next.js, C#, .NET, and SQL Server",
+    className: "text-[1.05em] font-semibold",
   },
 ] as const;
 
@@ -57,12 +58,13 @@ export function About() {
   id="about"
   className="scroll-mt-[-130px] py-12 sm:py-16 lg:py-24"
 >
+      <div
+        className="section-content-scale"
+        style={getSectionContentScaleStyle("about")}
+      >
       <div className="site-container">
         <Reveal>
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.025] px-4 py-2 text-[0.68rem] font-medium tracking-[0.24em] text-zinc-400 uppercase">
-            <span className="size-1.5 rounded-full bg-highlight shadow-[0_0_10px_rgba(138,172,190,0.8)]" />
-            About
-          </div>
+          
           <h2 className="font-heading mt-7 text-4xl leading-tight font-bold tracking-[-0.035em] text-white sm:text-5xl">
             About Me
           </h2>
@@ -81,6 +83,7 @@ export function About() {
       </div>
 
       <Timeline />
+      </div>
     </section>
   );
 }

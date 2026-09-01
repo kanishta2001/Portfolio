@@ -98,6 +98,14 @@ button:focus-visible {
   margin-inline: auto;
 }
 
+/*
+ * Main section content sizing is controlled in src/lib/section-content-scale.ts.
+ * CSS zoom scales both the visuals and their layout space, avoiding large empty gaps.
+ */
+.section-content-scale {
+  zoom: var(--section-content-scale, 1);
+}
+
 .glass-card {
   border: 1px solid var(--border);
   background: linear-gradient(145deg, rgba(13, 22, 34, 0.84), rgba(8, 17, 27, 0.76));

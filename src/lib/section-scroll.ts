@@ -7,7 +7,7 @@
 export const sectionScrollStops = [
   { id: "home", adjustment: 0 },
   { id: "about", adjustment: 0 },
-  { id: "projects", adjustment: 0 },
+  { id: "projects", adjustment: 100 },
   { id: "skills", adjustment: 0 },
   { id: "contact", adjustment: 0 },
 ] as const;
@@ -34,12 +34,21 @@ export const projectScrollStops = [
 // මේ values වෙනස් කළත් Navbar click position වෙනස් නොවේ.
 export const scrollMagnetSettings = {
   // වැඩි percentage එකක් = section එකට දුරින් සිටියත් magnet එක catch වේ.
-  // Examples: "12%" soft, "20%" balanced, "28%" strong.
-  distanceThreshold: "60%" as const,
+  // Examples: "20%" soft, "32%" balanced, "42%" strong.
+  // 60% වැනි ඉතා වැඩි value එකක් large wheel/trackpad input වලදී section skip කළ හැක.
+  distanceThreshold: "42%" as const,
   // User scroll කිරීම නතර කළ පසු snap වීමට පෙර wait කරන milliseconds.
   debounce: 380,
   // Magnet එක stop position එකට යන animation duration එක seconds වලින්.
   duration: 0.5,
+  // Projects Navbar/section target එකම first project entry view ලෙස භාවිතා කරයි.
+  // `false` තැබීමෙන් first-project point එක section target එක සමඟ compete නොකරයි.
+  // Project 2, 3, 4 magnets තවම ක්‍රියා කරයි.
+  includeFirstProjectPoint: false,
+  // Section target එකකට මේ pixel distance එකට වඩා ළඟ project target එකක්
+  // තිබේ නම් section placement එකට priority දී project target එක ignore කරයි.
+  // අඩු කළොත් project magnets section start එකට තව ළඟින් ක්‍රියා කරයි.
+  minimumSectionGap: 140,
 };
 
 export function getSectionAdjustment(id: string) {
@@ -66,17 +75,10 @@ export function getSectionScrollTarget(section: HTMLElement, adjustment = 0) {
 
 // Project panel එක viewport center එකට එන scroll position එක calculate කරයි.
 export function getProjectScrollTarget(projectPanel: HTMLElement, adjustment = 0) {
-  let panelTop = 0;
-  let currentElement: HTMLElement | null = projectPanel;
-
-  // offsetTop භාවිතා කිරීමෙන් Motion reveal transform එක target position එකට
-  // බලපාන්නේ නැහැ; layout එකේ static position එක පමණක් ගණනය වේ.
-  while (currentElement) {
-    panelTop += currentElement.offsetTop;
-    currentElement = currentElement.offsetParent as HTMLElement | null;
-  }
-
-  const panelCenter = panelTop + projectPanel.offsetHeight / 2;
+  // Render වූ actual size එක භාවිතා කරන නිසා section content scale value එක
+  // වෙනස් කළත් project magnet එක visual center එකටම align වේ.
+  const panelRect = projectPanel.getBoundingClientRect();
+  const panelCenter = window.scrollY + panelRect.top + panelRect.height / 2;
   const maximumScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
   const target = panelCenter - window.innerHeight / 2 + adjustment;
 

@@ -1,6 +1,5 @@
 "use client";
 
-import LenisSnap from "lenis/snap";
 import { ReactLenis, useLenis } from "lenis/react";
 import { useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
@@ -24,26 +23,13 @@ function SectionScrollMagnet() {
   useEffect(() => {
     if (!lenis || reduceMotion) return;
 
-    // Proximity snapping only takes over when scrolling finishes close to one
-    // of the preferred section views. Continued input remains free to scroll.
-    const magnet = new LenisSnap(lenis, {
-      type: "proximity",
-      // Wait for a genuine pause before settling so trackpads and repeated
-      // wheel input never fight the long sticky Projects section.
-      distanceThreshold: scrollMagnetSettings.distanceThreshold,
-      debounce: scrollMagnetSettings.debounce,
-      duration: scrollMagnetSettings.duration,
-      easing: (progress) => 1 - Math.pow(1 - progress, 4),
-    });
+    let magnetTimer: number | null = null;
 
-    let removeMagnetPoints: Array<() => void> = [];
-    let resizeFrame: number | null = null;
-
-    // Section එකේ actual document position එක ගණනය කරලා custom snap point එකක්
-    // add කරනවා. මේ නිසා offset values section-by-section වෙනස් කළ හැක.
-    const registerMagnetPoints = () => {
-      removeMagnetPoints.forEach((removePoint) => removePoint());
-      removeMagnetPoints = [];
+    // IMPORTANT: targets startup එකේ cache නොකර snap වෙන මොහොතේම ගණනය කරයි.
+    // Skills rows/images add කළත් Navbar සහ manual magnet එක sync වී සිටින්නේ මේ නිසායි.
+    const getLiveMagnetPoints = () => {
+      const magnetPoints: number[] = [];
+      const sectionStopPositions: number[] = [];
 
       for (const { id, adjustment } of sectionScrollStops) {
         const section = document.getElementById(id);
@@ -52,7 +38,8 @@ function SectionScrollMagnet() {
         // Navbar click කරන විට Lenis භාවිතා කරන target එකම මෙහි ගණනය වේ.
         const stopPosition = getSectionScrollTarget(section, adjustment);
 
-        removeMagnetPoints.push(magnet.add(stopPosition));
+        sectionStopPositions.push(stopPosition);
+        magnetPoints.push(stopPosition);
       }
 
       // Responsive layout එකේ visible project panels පමණක් magnet points ලෙස add කරයි.
@@ -64,29 +51,79 @@ function SectionScrollMagnet() {
 
         const projectIndex = Number(projectPanel.dataset.projectMagnetIndex);
         if (!Number.isInteger(projectIndex)) return;
+        if (projectIndex === 0 && !scrollMagnetSettings.includeFirstProjectPoint) return;
 
         const adjustment = getProjectAdjustment(projectIndex);
         const stopPosition = getProjectScrollTarget(projectPanel, adjustment);
 
-        removeMagnetPoints.push(magnet.add(stopPosition));
+        // Projects section entry point එක Navbar target එකට ඉතා ළඟ නම්
+        // competing project snap එක add නොකර section placement එකට priority දෙයි.
+        const competesWithSection = sectionStopPositions.some(
+          (sectionPosition) =>
+            Math.abs(stopPosition - sectionPosition) < scrollMagnetSettings.minimumSectionGap,
+        );
+        if (competesWithSection) return;
+
+        magnetPoints.push(stopPosition);
+      });
+
+      return magnetPoints.sort((first, second) => first - second);
+    };
+
+    const getDistanceThreshold = (): number => {
+      const threshold = scrollMagnetSettings.distanceThreshold;
+
+      if (typeof threshold === "string" && threshold.endsWith("%")) {
+        return (Number.parseFloat(threshold) / 100) * window.innerHeight;
+      }
+
+      return Number(threshold);
+    };
+
+    const settleAtNearestPoint = () => {
+      const points = getLiveMagnetPoints();
+      if (points.length === 0) return;
+
+      // targetScroll භාවිතා කිරීමෙන් Lenis inertia අවසානයට යාමට නියමිත position එක
+      // compare කරයි; animated current frame එක compare කිරීමෙන් ඇතිවන drift එක වැළකේ.
+      const intendedScroll = lenis.targetScroll;
+      const nearestPoint = points.reduce((nearest, point) =>
+        Math.abs(point - intendedScroll) < Math.abs(nearest - intendedScroll) ? point : nearest,
+      );
+
+      const distance = Math.abs(nearestPoint - intendedScroll);
+      if (distance > getDistanceThreshold() || distance < 0.5) return;
+
+      lenis.scrollTo(nearestPoint, {
+        duration: scrollMagnetSettings.duration,
+        easing: (progress) => 1 - Math.pow(1 - progress, 4),
+        userData: { initiator: "portfolio-magnet" },
       });
     };
 
-    // Browser width වෙනස් වූ විට responsive layout එකේ section positions වෙනස්
-    // විය හැකි නිසා snap points නැවත calculate කරනවා.
-    const handleResize = () => {
-      if (resizeFrame !== null) window.cancelAnimationFrame(resizeFrame);
-      resizeFrame = window.requestAnimationFrame(registerMagnetPoints);
+    const cancelPendingMagnet = () => {
+      if (magnetTimer === null) return;
+      window.clearTimeout(magnetTimer);
+      magnetTimer = null;
     };
 
-    registerMagnetPoints();
-    window.addEventListener("resize", handleResize);
+    const removeVirtualScrollListener = lenis.on("virtual-scroll", ({ event }) => {
+      if (event.type === "touchmove") return;
+
+      cancelPendingMagnet();
+      magnetTimer = window.setTimeout(() => {
+        magnetTimer = null;
+        settleAtNearestPoint();
+      }, scrollMagnetSettings.debounce);
+    });
+
+    // Navbar click එකකට පෙර pending manual snap එක cancel කරයි.
+    window.addEventListener("portfolio:navigation-start", cancelPendingMagnet);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
-      if (resizeFrame !== null) window.cancelAnimationFrame(resizeFrame);
-      removeMagnetPoints.forEach((removePoint) => removePoint());
-      magnet.destroy();
+      cancelPendingMagnet();
+      removeVirtualScrollListener();
+      window.removeEventListener("portfolio:navigation-start", cancelPendingMagnet);
     };
   }, [lenis, reduceMotion]);
 

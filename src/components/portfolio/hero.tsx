@@ -4,6 +4,7 @@ import { ArrowDown, Mail } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
 import { profile } from "@/data/portfolio";
+import { getSectionContentScaleStyle } from "@/lib/section-content-scale";
 import { RotatingText } from "./hero-effects/rotating-text";
 import { SpecularButton } from "./hero-effects/specular-button";
 import { StrokeText } from "./hero-effects/stroke-text";
@@ -35,7 +36,10 @@ export function Hero() {
       id="home"
       className="hero-section relative isolate flex min-h-[80svh] items-center overflow-hidden px-0 pt-20 pb-12 lg:h-svh lg:min-h-0 lg:py-0"
     >
-      <div className="relative z-10 flex w-full items-center justify-center px-5 sm:px-8 lg:px-6">
+      <div
+        className="section-content-scale relative z-10 flex w-full items-center justify-center px-5 sm:px-8 lg:px-6"
+        style={getSectionContentScaleStyle("home")}
+      >
         <motion.div
           className="mx-auto flex w-full max-w-[78rem] flex-col items-center text-center"
           initial={reduceMotion ? false : "hidden"}

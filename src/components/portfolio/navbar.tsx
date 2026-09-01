@@ -4,7 +4,7 @@ import { Menu, X } from "lucide-react";
 import { useLenis } from "lenis/react";
 import { useEffect, useState, type MouseEvent } from "react";
 import { navigation } from "@/data/portfolio";
-import { getSectionAdjustment } from "@/lib/section-scroll";
+import { getSectionAdjustment, getSectionScrollTarget } from "@/lib/section-scroll";
 
 export function Navbar() {
   const lenis = useLenis();
@@ -64,9 +64,15 @@ export function Navbar() {
     // click සහ manual scroll දෙකම එකම exact position එකේ නතර වේ.
     if (lenis && section) {
       event.preventDefault();
-      lenis.scrollTo(section, {
-        offset: getSectionAdjustment(sectionId),
-      });
+      // React Navbar handler එකෙන් පසුව global `anchors: true` listener එක
+      // offset නැති දෙවැනි scroll එකක් ආරම්භ නොකරන්න propagation නවත්වයි.
+      event.stopPropagation();
+      window.dispatchEvent(new Event("portfolio:navigation-start"));
+      const adjustment = getSectionAdjustment(sectionId);
+      const sharedTarget = getSectionScrollTarget(section, adjustment);
+
+      // Magnet එක register කරන numeric position එකම Navbar එකත් භාවිතා කරයි.
+      lenis.scrollTo(sharedTarget);
     }
 
     setActiveSection(sectionId);

@@ -2,13 +2,17 @@ import { ArrowDownToLine, ArrowUpRight, Mail } from "lucide-react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
 import BorderGlow from "@/components/ui/border-glow";
 import { profile } from "@/data/portfolio";
+import { getSectionContentScaleStyle } from "@/lib/section-content-scale";
 import { Reveal } from "./reveal";
 import { SectionHeading } from "./section-heading";
 
 export function Contact() {
   return (
     <section id="contact" className="py-12 sm:py-16 lg:py-24">
-      <div className="site-container">
+      <div
+        className="section-content-scale site-container"
+        style={getSectionContentScaleStyle("contact")}
+      >
         <Reveal>
           <BorderGlow
             className="interactive-surface"
@@ -27,7 +31,7 @@ export function Contact() {
               <div aria-hidden="true" className="ambient-orb ambient-orb-reverse absolute -bottom-40 -left-24 size-80 rounded-full bg-secondary/25 blur-[100px]" />
               <div className="relative grid items-end gap-10 lg:grid-cols-[1fr_auto]">
               <div>
-                <SectionHeading eyebrow="Contact" title="Let’s Work Together" />
+                <SectionHeading title="Let’s Work Together" />
                 <p className="mt-6 max-w-2xl text-base leading-8 text-zinc-400 sm:text-lg">
                   I am open to internship opportunities, collaboration, and learning-focused development projects.
                 </p>

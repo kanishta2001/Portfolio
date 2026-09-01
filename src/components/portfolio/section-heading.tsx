@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
 
 type SectionHeadingProps = {
-  eyebrow: ReactNode;
+  eyebrow?: ReactNode;
   title: ReactNode;
   description?: ReactNode;
   centered?: boolean;
@@ -46,18 +46,20 @@ export function SectionHeading({
       viewport={{ once: true, amount: 0.55 }}
       variants={{ visible: { transition: { staggerChildren: 0.09 } } }}
     >
-      <motion.div
-        className={`mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.025] font-medium tracking-[0.24em] text-zinc-400 uppercase ${eyebrowSize} ${
-          centered ? "justify-center" : ""
-        }`}
-        variants={{
-          hidden: { opacity: 0, y: 12, filter: "blur(6px)" },
-          visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.52 } },
-        }}
-      >
-        <span className="size-1.5 rounded-full bg-highlight shadow-[0_0_10px_rgba(138,172,190,0.8)]" />
-        {eyebrow}
-      </motion.div>
+      {eyebrow && (
+        <motion.div
+          className={`mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.025] font-medium tracking-[0.24em] text-zinc-400 uppercase ${eyebrowSize} ${
+            centered ? "justify-center" : ""
+          }`}
+          variants={{
+            hidden: { opacity: 0, y: 12, filter: "blur(6px)" },
+            visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.52 } },
+          }}
+        >
+          <span className="size-1.5 rounded-full bg-highlight shadow-[0_0_10px_rgba(138,172,190,0.8)]" />
+          {eyebrow}
+        </motion.div>
+      )}
       <div className="overflow-hidden pb-1">
         <motion.h2
           className={`font-heading leading-tight font-bold tracking-[-0.035em] text-white ${titleSize}`}

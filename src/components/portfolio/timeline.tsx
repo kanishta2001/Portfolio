@@ -156,16 +156,12 @@ export function Timeline() {
     <div className="relative mt-16 sm:mt-20 lg:mt-24">
       <div className="site-container relative">
         <motion.div
-          className="border-t border-white/12 pt-10 sm:pt-12"
           initial={reduceMotion ? false : { opacity: 0, y: 24, filter: "blur(7px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, amount: 0.55 }}
           transition={{ duration: reduceMotion ? 0 : 0.58, ease: [0.22, 1, 0.36, 1] }}
         >
-          <p className="text-[0.68rem] font-medium tracking-[0.24em] text-zinc-500 uppercase">
-            About / Journey
-          </p>
-          <h2 className="font-heading mt-4 text-center text-3xl font-bold tracking-[-0.035em] text-white sm:text-4xl">
+          <h2 className="font-heading text-center text-3xl font-bold tracking-[-0.035em] text-white sm:text-4xl">
             Journey
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-center text-sm leading-7 text-zinc-400 sm:text-base">

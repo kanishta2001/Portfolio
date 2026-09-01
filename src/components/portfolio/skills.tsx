@@ -1,37 +1,79 @@
 "use client";
 
-import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
-import { FiGithub } from "react-icons/fi";
-import { SiNextdotjs } from "react-icons/si";
+import type { IconType } from "react-icons";
+import { BsDatabaseGear } from "react-icons/bs";
+import { DiMsqlServer } from "react-icons/di";
+import { FiPenTool } from "react-icons/fi";
+import {
+  SiAndroidstudio,
+  SiDart,
+  SiDotnet,
+  SiFigma,
+  SiFlutter,
+  SiGit,
+  SiGithub,
+  SiIntellijidea,
+  SiJavascript,
+  SiNextdotjs,
+  SiNodedotjs,
+  SiPostman,
+  SiReact,
+  SiSwagger,
+  SiTailwindcss,
+  SiTypescript,
+} from "react-icons/si";
+import { TbBrandCSharp } from "react-icons/tb";
+import { VscVscode } from "react-icons/vsc";
 import ScrollVelocity from "@/components/ui/scroll-velocity";
 import { skillGroups } from "@/data/portfolio";
+import { getSectionContentScaleStyle } from "@/lib/section-content-scale";
 import { SectionHeading } from "./section-heading";
 
 type SkillGroup = (typeof skillGroups)[number];
 
+// සියලු skills එකම react-icons component system එකෙන් render කරයි.
+// මෙහි mapping එක නිසා සෑම logo එකකටම එකම size, color සහ alignment ලැබේ.
+// Canva සඳහා installed icon set එකේ official brand icon නොමැති නිසා
+// generic design-tool icon එකක් භාවිතා කරයි.
+const skillIconComponents: Record<string, IconType> = {
+  React: SiReact,
+  "Next.js": SiNextdotjs,
+  JavaScript: SiJavascript,
+  TypeScript: SiTypescript,
+  "Tailwind CSS": SiTailwindcss,
+  "C#": TbBrandCSharp,
+  ".NET": SiDotnet,
+  "ASP.NET Core Web API": SiDotnet,
+  "SQL Server": DiMsqlServer,
+  "Entity Framework Core": BsDatabaseGear,
+  "Node.js": SiNodedotjs,
+  Flutter: SiFlutter,
+  Dart: SiDart,
+  "Android Studio": SiAndroidstudio,
+  Git: SiGit,
+  GitHub: SiGithub,
+  "VS Code": VscVscode,
+  Swagger: SiSwagger,
+  Postman: SiPostman,
+  "IntelliJ IDEA": SiIntellijidea,
+  Figma: SiFigma,
+  Canva: FiPenTool,
+};
+
 function SkillLogoStrip({ group }: { group: SkillGroup }) {
   return (
     <span className="skill-velocity-strip">
-      {group.skills.map((skill) => (
-        <span key={skill.name} className="skill-velocity-item">
-          {skill.name === "Next.js" ? (
-            <SiNextdotjs aria-hidden="true" />
-          ) : skill.name === "GitHub" ? (
-            <FiGithub aria-hidden="true" />
-          ) : (
-            <Image
-              src={skill.logo}
-              alt=""
-              width={48}
-              height={48}
-              className={`skill-velocity-image ${"invert" in skill && skill.invert ? "invert" : ""}`}
-              draggable={false}
-            />
-          )}
-          <span>{skill.name}</span>
-        </span>
-      ))}
+      {group.skills.map((skill) => {
+        const SkillIcon = skillIconComponents[skill.name] ?? FiPenTool;
+
+        return (
+          <span key={skill.name} className="skill-velocity-item">
+            <SkillIcon aria-hidden="true" />
+            <span>{skill.name}</span>
+          </span>
+        );
+      })}
     </span>
   );
 }
@@ -64,9 +106,11 @@ export function Skills() {
         className="absolute top-1/2 left-1/2 h-80 w-[70%] -translate-x-1/2 -translate-y-1/2 bg-primary/8 blur-[120px]"
       />
 
-      <div className="site-container relative max-w-[70.3rem]">
+      <div
+        className="section-content-scale site-container relative max-w-[70.3rem]"
+        style={getSectionContentScaleStyle("skills")}
+      >
         <SectionHeading
-          eyebrow="Skills"
           title="Tools I Work With"
           description="Languages, technologies, and tools I use to build clean interfaces, structured APIs, and dependable full-stack applications."
           size="slightlyCompact"

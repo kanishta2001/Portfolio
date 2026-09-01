@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "Nipun Karunarathna — Full-Stack Web Developer",
   description:
-    "Portfolio of Nipun Karunarathna, a Software Engineering undergraduate building web applications with React, Next.js, C#, ASP.NET Core, and SQL Server.",
+    "Portfolio of Nipun Karunarathna, a Software Engineering undergraduate building web applications with React, Next.js, C#, .NET, and SQL Server.",
   authors: [{ name: "Nipun Karunarathna" }],
   openGraph: {
     title: "Nipun Karunarathna — Full-Stack Web Developer",
