@@ -25,8 +25,8 @@ function SectionScrollMagnet() {
 
     let magnetTimer: number | null = null;
 
-    // IMPORTANT: targets startup එකේ cache නොකර snap වෙන මොහොතේම ගණනය කරයි.
-    // Skills rows/images add කළත් Navbar සහ manual magnet එක sync වී සිටින්නේ මේ නිසායි.
+    // IMPORTANT: targets are not cached on startup; they are calculated at
+    // snap time so the Navbar and manual magnet stay in sync after layout changes.
     const getLiveMagnetPoints = () => {
       const magnetPoints: number[] = [];
       const sectionStopPositions: number[] = [];
@@ -35,15 +35,15 @@ function SectionScrollMagnet() {
         const section = document.getElementById(id);
         if (!section) continue;
 
-        // Navbar click කරන විට Lenis භාවිතා කරන target එකම මෙහි ගණනය වේ.
+        // This calculates the same target Lenis uses when the Navbar is clicked.
         const stopPosition = getSectionScrollTarget(section, adjustment);
 
         sectionStopPositions.push(stopPosition);
         magnetPoints.push(stopPosition);
       }
 
-      // Responsive layout එකේ visible project panels පමණක් magnet points ලෙස add කරයි.
-      // Desktop sticky projects සහ mobile stacked projects දෙකම මේ logic එක භාවිතා කරයි.
+      // Only visible project panels in the responsive layout become magnet points.
+      // This covers both desktop sticky projects and mobile stacked projects.
       const projectPanels = document.querySelectorAll<HTMLElement>("[data-project-magnet-index]");
 
       projectPanels.forEach((projectPanel) => {
@@ -56,8 +56,8 @@ function SectionScrollMagnet() {
         const adjustment = getProjectAdjustment(projectIndex);
         const stopPosition = getProjectScrollTarget(projectPanel, adjustment);
 
-        // Projects section entry point එක Navbar target එකට ඉතා ළඟ නම්
-        // competing project snap එක add නොකර section placement එකට priority දෙයි.
+        // If the Projects section entry point is very close to the Navbar target,
+        // give section placement priority instead of adding a competing project snap.
         const competesWithSection = sectionStopPositions.some(
           (sectionPosition) =>
             Math.abs(stopPosition - sectionPosition) < scrollMagnetSettings.minimumSectionGap,
@@ -84,8 +84,8 @@ function SectionScrollMagnet() {
       const points = getLiveMagnetPoints();
       if (points.length === 0) return;
 
-      // targetScroll භාවිතා කිරීමෙන් Lenis inertia අවසානයට යාමට නියමිත position එක
-      // compare කරයි; animated current frame එක compare කිරීමෙන් ඇතිවන drift එක වැළකේ.
+      // targetScroll compares against the position where Lenis inertia is going
+      // to settle, avoiding drift from comparing the animated current frame.
       const intendedScroll = lenis.targetScroll;
       const nearestPoint = points.reduce((nearest, point) =>
         Math.abs(point - intendedScroll) < Math.abs(nearest - intendedScroll) ? point : nearest,
@@ -117,7 +117,7 @@ function SectionScrollMagnet() {
       }, scrollMagnetSettings.debounce);
     });
 
-    // Navbar click එකකට පෙර pending manual snap එක cancel කරයි.
+    // Cancel any pending manual snap before a Navbar click starts.
     window.addEventListener("portfolio:navigation-start", cancelPendingMagnet);
 
     return () => {

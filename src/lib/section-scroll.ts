@@ -1,9 +1,9 @@
-// Navbar click සහ manual-scroll magnet දෙකම මේ එකම section positions භාවිතා කරයි.
-// ඔබට position එක වෙනස් කිරීමට අවශ්‍ය නම් මෙහි `adjustment` value එක පමණක් වෙනස් කරන්න.
+// Navbar clicks and the manual-scroll magnet both use these same section positions.
+// To change a stop position, edit only the `adjustment` value here.
 //
-//   adjustment: 0    -> දැනට Navbar click කළ විට පෙනෙන position එක
-//   adjustment: 40   -> section එක තව ඉහළට ගෙන එයි (page එක තව 40px scroll වේ)
-//   adjustment: -40  -> section එක තව පහළින් පෙන්වයි (page එක 40px අඩුවෙන් scroll වේ)
+//   adjustment: 0    -> the current position shown after a Navbar click
+//   adjustment: 40   -> moves the section higher (the page scrolls 40px more)
+//   adjustment: -40  -> shows the section lower (the page scrolls 40px less)
 export const sectionScrollStops = [
   { id: "home", adjustment: 0 },
   { id: "about", adjustment: 0 },
@@ -14,15 +14,15 @@ export const sectionScrollStops = [
 
 export type SectionScrollId = (typeof sectionScrollStops)[number]["id"];
 
-// Projects section එක ඇතුළේ project එකෙන් project එකට යන magnet positions.
-// Array order එක portfolio data එකේ project order එකට සමානයි.
+// Magnet positions for moving from one project to the next inside the Projects section.
+// The array order matches the project order in the portfolio data.
 //
-//   adjustment: 0    -> project text panel එක viewport center එකට align වේ
-//   adjustment: 40   -> project content එක තව ඉහළට ගෙන එයි
-//   adjustment: -40  -> project content එක තව පහළින් පෙන්වයි
+//   adjustment: 0    -> aligns the project text panel to the viewport center
+//   adjustment: 40   -> moves the project content higher
+//   adjustment: -40  -> shows the project content lower
 //
-// Example: දෙවැනි project එක තව 30px පහළින් පෙන්වීමට
-// `{ project: 2, adjustment: -30 }` ලෙස වෙනස් කරන්න.
+// Example: to show the second project 30px lower,
+// change it to `{ project: 2, adjustment: -30 }`.
 export const projectScrollStops = [
   { project: 1, adjustment: 30 },
   { project: 2, adjustment: 0 },
@@ -30,24 +30,24 @@ export const projectScrollStops = [
   { project: 4, adjustment: 0 },
 ] as const;
 
-// Section සහ project-step magnets දෙකේම sensitivity controls.
-// මේ values වෙනස් කළත් Navbar click position වෙනස් නොවේ.
+// Sensitivity controls for both section and project-step magnets.
+// Changing these values does not change the Navbar click positions.
 export const scrollMagnetSettings = {
-  // වැඩි percentage එකක් = section එකට දුරින් සිටියත් magnet එක catch වේ.
+  // A higher percentage lets the magnet catch even when farther from a section.
   // Examples: "20%" soft, "32%" balanced, "42%" strong.
-  // 60% වැනි ඉතා වැඩි value එකක් large wheel/trackpad input වලදී section skip කළ හැක.
+  // Very high values like 60% may skip sections with large wheel or trackpad input.
   distanceThreshold: "42%" as const,
-  // User scroll කිරීම නතර කළ පසු snap වීමට පෙර wait කරන milliseconds.
+  // Milliseconds to wait after the user stops scrolling before snapping.
   debounce: 380,
-  // Magnet එක stop position එකට යන animation duration එක seconds වලින්.
+  // Animation duration, in seconds, for moving to the magnet stop position.
   duration: 0.5,
-  // Projects Navbar/section target එකම first project entry view ලෙස භාවිතා කරයි.
-  // `false` තැබීමෙන් first-project point එක section target එක සමඟ compete නොකරයි.
-  // Project 2, 3, 4 magnets තවම ක්‍රියා කරයි.
+  // The Projects Navbar/section target is also used as the first project entry view.
+  // Setting this to `false` keeps the first-project point from competing with the section target.
+  // Project 2, 3, and 4 magnets still work.
   includeFirstProjectPoint: false,
-  // Section target එකකට මේ pixel distance එකට වඩා ළඟ project target එකක්
-  // තිබේ නම් section placement එකට priority දී project target එක ignore කරයි.
-  // අඩු කළොත් project magnets section start එකට තව ළඟින් ක්‍රියා කරයි.
+  // If a project target is closer than this pixel distance to a section target,
+  // the section placement gets priority and the project target is ignored.
+  // Lowering this lets project magnets activate closer to the section start.
   minimumSectionGap: 140,
 };
 
@@ -59,8 +59,8 @@ export function getProjectAdjustment(index: number) {
   return projectScrollStops[index]?.adjustment ?? 0;
 }
 
-// Lenis Navbar anchor එක භාවිතා කරන calculation එකම magnet එකටත් ලබා දෙයි.
-// CSS scroll-margin-top සහ global scroll-padding-top values ද මෙහි ගණනය වේ.
+// Gives the magnet the same calculation used by the Lenis Navbar anchor.
+// CSS scroll-margin-top and global scroll-padding-top are included here.
 export function getSectionScrollTarget(section: HTMLElement, adjustment = 0) {
   const sectionTop = window.scrollY + section.getBoundingClientRect().top;
   const sectionStyle = window.getComputedStyle(section);
@@ -73,10 +73,10 @@ export function getSectionScrollTarget(section: HTMLElement, adjustment = 0) {
   return Math.min(maximumScroll, Math.max(0, target));
 }
 
-// Project panel එක viewport center එකට එන scroll position එක calculate කරයි.
+// Calculates the scroll position that brings a project panel to the viewport center.
 export function getProjectScrollTarget(projectPanel: HTMLElement, adjustment = 0) {
-  // Render වූ actual size එක භාවිතා කරන නිසා section content scale value එක
-  // වෙනස් කළත් project magnet එක visual center එකටම align වේ.
+  // Uses the actual rendered size, so the project magnet still aligns to the
+  // visual center even when the section content scale value changes.
   const panelRect = projectPanel.getBoundingClientRect();
   const panelCenter = window.scrollY + panelRect.top + panelRect.height / 2;
   const maximumScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);

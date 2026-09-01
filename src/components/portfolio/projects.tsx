@@ -24,7 +24,7 @@ function ProjectDevice({ project }: { project: Project }) {
       <Iphone16Pro
         src={project.image}
         aria-hidden="true"
-        // 96% × 1.15 = 110.4%. මේ value එකෙන් phone preview size එක පමණක් manual ලෙස වෙනස් කළ හැක.
+        // Adjust only this value to manually change the phone preview size.
         className="h-[130.4%] w-auto max-w-full text-[#07101a] drop-shadow-[0_28px_35px_rgba(0,0,0,0.55)]"
       />
     );

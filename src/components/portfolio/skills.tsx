@@ -32,10 +32,10 @@ import { SectionHeading } from "./section-heading";
 
 type SkillGroup = (typeof skillGroups)[number];
 
-// සියලු skills එකම react-icons component system එකෙන් render කරයි.
-// මෙහි mapping එක නිසා සෑම logo එකකටම එකම size, color සහ alignment ලැබේ.
-// Canva සඳහා installed icon set එකේ official brand icon නොමැති නිසා
-// generic design-tool icon එකක් භාවිතා කරයි.
+// All skills are rendered through the same react-icons component system.
+// This mapping keeps every logo at the same size, color, and alignment.
+// Canva does not have an official brand icon in the installed icon set, so a
+// generic design-tool icon is used.
 const skillIconComponents: Record<string, IconType> = {
   React: SiReact,
   "Next.js": SiNextdotjs,

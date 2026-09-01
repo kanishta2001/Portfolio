@@ -1,14 +1,14 @@
 import type { CSSProperties } from "react";
 
-// එක් එක් section එකේ overall content size එක මෙතැනින් manual adjust කරන්න.
-// Background සහ section scroll area වෙනස් නොකර inner content පමණක් scale වේ.
+// Manually adjust the overall content size for each section here.
+// Only the inner content is scaled; the background and section scroll area stay unchanged.
 //
 //   1     = original size (100%)
 //   0.95  = 5% smaller
 //   0.9   = 10% smaller
 //   0.85  = 15% smaller
 //
-// ඉතා කුඩා value භාවිතා නොකර 0.85 - 1 range එක තුළ තබා ගැනීම recommended.
+// Keep values in the 0.85 - 1 range to avoid making the layout too small.
 export const sectionContentScales = {
   home: 1,
   about: 1,

@@ -60,18 +60,18 @@ export function Navbar() {
     const sectionId = href.slice(1);
     const section = document.getElementById(sectionId);
 
-    // Shared adjustment එක Navbar සහ magnet දෙකටම apply කරන නිසා
-    // click සහ manual scroll දෙකම එකම exact position එකේ නතර වේ.
+    // The shared adjustment is applied to both the Navbar and the magnet, so
+    // clicks and manual scrolling stop at the same exact position.
     if (lenis && section) {
       event.preventDefault();
-      // React Navbar handler එකෙන් පසුව global `anchors: true` listener එක
-      // offset නැති දෙවැනි scroll එකක් ආරම්භ නොකරන්න propagation නවත්වයි.
+      // Stops the global `anchors: true` listener from starting a second
+      // unadjusted scroll after this React Navbar handler.
       event.stopPropagation();
       window.dispatchEvent(new Event("portfolio:navigation-start"));
       const adjustment = getSectionAdjustment(sectionId);
       const sharedTarget = getSectionScrollTarget(section, adjustment);
 
-      // Magnet එක register කරන numeric position එකම Navbar එකත් භාවිතා කරයි.
+      // The Navbar uses the same numeric position registered by the magnet.
       lenis.scrollTo(sharedTarget);
     }
 
