@@ -2,14 +2,29 @@
 
 import { Menu, X } from "lucide-react";
 import { useLenis } from "lenis/react";
+import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
 import { useEffect, useState, type MouseEvent } from "react";
 import { navigation } from "@/data/portfolio";
 import { getSectionAdjustment, getSectionScrollTarget } from "@/lib/section-scroll";
 
 export function Navbar() {
   const lenis = useLenis();
+  const { scrollY } = useScroll();
+  const shouldReduceMotion = useReducedMotion();
   const [isOpen, setIsOpen] = useState(false);
+  const [isMobileNavHidden, setIsMobileNavHidden] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+
+  useMotionValueEvent(scrollY, "change", (current) => {
+    const previous = scrollY.getPrevious() ?? 0;
+
+    if (isOpen || shouldReduceMotion) {
+      setIsMobileNavHidden(false);
+      return;
+    }
+
+    setIsMobileNavHidden(current > previous && current > 150);
+  });
 
   useEffect(() => {
     const sections = navigation
@@ -107,51 +122,78 @@ export function Navbar() {
         </nav>
       </aside>
 
-      <header className="fixed inset-x-0 top-0 z-50 px-5 pt-5 lg:hidden">
+      <motion.header
+        className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-end px-4 pt-4 lg:hidden"
+        animate={{
+          y: isMobileNavHidden ? -96 : 0,
+          opacity: isMobileNavHidden ? 0 : 1,
+        }}
+        transition={
+          shouldReduceMotion
+            ? { duration: 0 }
+            : { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
+        }
+      >
         <nav
           aria-label="Mobile navigation"
-          className="mx-auto flex items-center justify-between px-1 py-2"
+          className="pointer-events-auto relative flex items-center justify-end"
         >
-          <a
-            href="#home"
-            className="font-heading text-lg font-bold tracking-tight text-white"
-            onClick={(event) => handleNavigation(event, "#home")}
-          >
-            Nipun<span className="text-highlight">.</span>
-          </a>
-
           <button
             type="button"
-            className="inline-flex size-10 items-center justify-center rounded-xl text-white"
+            className="inline-flex h-11 items-center gap-2.5 rounded-full border border-white/10 bg-[#08111b]/80 px-4 text-white shadow-[0_12px_32px_rgba(0,3,8,0.3)] backdrop-blur-xl transition-colors hover:border-white/20 hover:bg-[#0d1622]/90"
             aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={isOpen}
             aria-controls="mobile-menu"
             onClick={() => setIsOpen((current) => !current)}
           >
-            {isOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
+            <span className="text-[0.67rem] font-semibold tracking-[0.18em] text-zinc-300 uppercase">
+              {navigation.find((item) => item.href === `#${activeSection}`)?.label ?? "Menu"}
+            </span>
+            {isOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
           </button>
 
-          {isOpen && (
-            <div id="mobile-menu" className="glass-card absolute inset-x-5 top-[4.65rem] flex flex-col rounded-2xl p-3">
-              {navigation.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  aria-current={activeSection === item.href.slice(1) ? "page" : undefined}
-                  className={`rounded-xl px-4 py-3 text-sm transition-colors ${
-                    activeSection === item.href.slice(1)
-                      ? "bg-highlight/12 text-highlight"
-                      : "text-zinc-300 hover:bg-white/5 hover:text-white"
-                  }`}
-                  onClick={(event) => handleNavigation(event, item.href)}
-                >
-                  {item.label}
-                </a>
-              ))}
-            </div>
-          )}
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div
+                id="mobile-menu"
+                initial={shouldReduceMotion ? false : { opacity: 0, y: -8, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -8, scale: 0.97 }}
+                transition={{ duration: shouldReduceMotion ? 0 : 0.2, ease: "easeOut" }}
+                className="absolute top-[3.35rem] right-0 flex w-[min(18rem,calc(100vw-2rem))] origin-top-right flex-col rounded-2xl border border-white/10 bg-[#08111b]/92 p-2 shadow-[0_24px_64px_rgba(0,3,8,0.52)] backdrop-blur-2xl"
+              >
+                {navigation.map((item) => {
+                  const isActive = activeSection === item.href.slice(1);
+
+                  return (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      aria-current={isActive ? "page" : undefined}
+                      className={`group flex min-h-11 items-center justify-between rounded-xl px-3.5 text-xs font-semibold tracking-[0.16em] uppercase transition-colors ${
+                        isActive
+                          ? "bg-white/[0.07] text-white"
+                          : "text-zinc-400 hover:bg-white/[0.04] hover:text-zinc-100"
+                      }`}
+                      onClick={(event) => handleNavigation(event, item.href)}
+                    >
+                      {item.label}
+                      <span
+                        aria-hidden="true"
+                        className={`size-1.5 rounded-full transition-all duration-300 ${
+                          isActive
+                            ? "bg-highlight shadow-[0_0_10px_rgba(224,231,255,0.85)]"
+                            : "bg-zinc-600 group-hover:bg-zinc-400"
+                        }`}
+                      />
+                    </a>
+                  );
+                })}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </nav>
-      </header>
+      </motion.header>
     </>
   );
 }
