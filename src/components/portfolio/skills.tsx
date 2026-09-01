@@ -58,7 +58,7 @@ export function Skills() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section id="skills" className="relative overflow-hidden py-11 sm:py-15 lg:py-[5.7rem]">
+    <section id="skills" className="relative scroll-mt-[-180px] overflow-hidden py-2 sm:py-2 lg:py-30">
       <div
         aria-hidden="true"
         className="absolute top-1/2 left-1/2 h-80 w-[70%] -translate-x-1/2 -translate-y-1/2 bg-primary/8 blur-[120px]"
@@ -72,11 +72,11 @@ export function Skills() {
           size="slightlyCompact"
         />
 
-        <div className="mt-8 space-y-6 sm:mt-10 sm:space-y-8">
+        <div className="mt-5 space-y-4 sm:mt-2 sm:space-y-2">
           {skillGroups.map((group, index) => (
             <motion.article
               key={group.title}
-              className="grid min-w-0 items-center gap-4 lg:grid-cols-[13.3rem_minmax(0,1fr)] lg:gap-8"
+              className="grid min-w-0 items-center gap-4 lg:grid-cols-[13.3rem_minmax(0,1fr)] lg:gap-2"
               initial={reduceMotion ? false : { opacity: 0, y: 26, filter: "blur(6px)" }}
               whileInView={
                 reduceMotion ? undefined : { opacity: 1, y: 0, filter: "blur(0px)" }
@@ -88,7 +88,7 @@ export function Skills() {
                 ease: [0.22, 1, 0.36, 1],
               }}
             >
-              <div className="flex items-start gap-4 lg:block">
+              <div className="flex items-start gap-2 lg:block">
                 <span className="font-mono text-[0.71rem] text-highlight/75">0{index + 1}</span>
                 <div className="lg:mt-2.5">
                   <h3 className="font-heading text-[1.2rem] font-semibold text-white sm:text-[1.425rem]">

@@ -191,7 +191,7 @@ export function Projects() {
   }));
 
   return (
-    <section id="projects" className="relative">
+    <section id="projects" className="relative scroll-mt-[-110px]">
       <div className="site-container py-10 sm:py-14 lg:hidden">
         <div className="mx-auto w-[85%]">
         <SectionHeading
