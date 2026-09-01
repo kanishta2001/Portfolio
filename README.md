@@ -1,61 +1,61 @@
 # Nipun Karunarathna — Developer Portfolio
 
-This is a single-page developer portfolio built for Nipun Karunarathna. The project uses `Next.js App Router`, `React`, `TypeScript`, `Tailwind CSS`, `Motion`, and `Lucide React`.
+මෙය Nipun Karunarathna සඳහා සාදන ලද single-page developer portfolio එකයි. Project එක `Next.js App Router`, `React`, `TypeScript`, `Tailwind CSS`, `Motion`, සහ `Lucide React` භාවිතා කරයි.
 
-## Running the project
+## Project එක run කිරීම
 
 ```bash
 npm install
 npm run dev
 ```
 
-Then open `http://localhost:3000` in your browser.
+ඉන්පසු browser එකෙන් `http://localhost:3000` open කරන්න.
 
-For a production check:
+Production check සඳහා:
 
 ```bash
 npm run lint
 npm run build
 ```
 
-## Where to edit content
+## Content වෙනස් කරන ස්ථානය
 
-Profile details, navigation, projects, timeline, and skills are all stored in `src/data/portfolio.ts`. For normal content edits, you usually do not need to change the components.
+Profile details, navigation, projects, timeline සහ skills සියල්ල `src/data/portfolio.ts` file එකේ තිබේ. සාමාන්‍ය content edit එකක් සඳහා components වෙනස් කිරීමට අවශ්‍ය නැහැ.
 
-## Main folders
+## ප්‍රධාන folders
 
-- `src/app/` — App Router page, metadata, and global styles
-- `src/components/portfolio/` — portfolio sections and interactive components
-- `src/data/portfolio.ts` — centralized content that is easy to edit
-- `public/projects/` — place for real project screenshots
-- `public/images/` — place for other portfolio images
-- `public/cv/` — place for the CV PDF
+- `src/app/` — App Router page, metadata සහ global styles
+- `src/components/portfolio/` — portfolio sections සහ interactive components
+- `src/data/portfolio.ts` — edit කිරීමට පහසු centralized content
+- `public/projects/` — real project screenshots දමන ස්ථානය
+- `public/images/` — වෙනත් portfolio images සඳහා
+- `public/cv/` — CV PDF එක සඳහා
 
-## Adding a project screenshot
+## Project screenshot එකක් එකතු කිරීම
 
-1. Place the image inside the `public/projects/` folder. Example: `public/projects/teamfit.png`.
-2. Add the following property to the relevant project object in `src/data/portfolio.ts`:
+1. Image එක `public/projects/` folder එකට දමන්න. උදාහරණය: `public/projects/teamfit.png`.
+2. `src/data/portfolio.ts` හි අදාළ project object එකට පහත property එක දමන්න:
 
 ```ts
 image: "/projects/teamfit.png",
 ```
 
-If a project does not have an image, the project card shows a clean placeholder. Fake screenshots are not used.
+Image එකක් නැති project card එක clean placeholder එකක් පෙන්වයි. Fake screenshots භාවිතා කරන්නේ නැහැ.
 
-## Adding the CV
+## CV එක එකතු කිරීම
 
-Place the CV file at this exact path:
+CV file එක මේ exact path එකට දමන්න:
 
 ```text
 public/cv/Nipun-Karunarathna-CV.pdf
 ```
 
-The Download CV buttons in the Hero and Contact sections both use that path.
+Hero සහ Contact section වල Download CV buttons දෙකම එම path එක භාවිතා කරයි.
 
-## Why Client Components are used
+## Client Components භාවිතා කරන හේතුව
 
-- `navbar.tsx` — for mobile menu state
-- `reveal.tsx` — for viewport reveal animations
-- `timeline.tsx` — for the scroll progress line and Motion hooks
+- `navbar.tsx` — mobile menu state එක සඳහා
+- `reveal.tsx` — viewport reveal animations සඳහා
+- `timeline.tsx` — scroll progress line සහ Motion hooks සඳහා
 
-The other content sections are kept as Server Components, which reduces the amount of unnecessary JavaScript sent to the browser.
+අනෙක් content sections Server Components ලෙස තබා ඇති නිසා browser එකට අවශ්‍ය නොවන JavaScript යැවීම අඩු වේ.

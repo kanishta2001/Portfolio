@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
-import "lenis/dist/lenis.css";
-import { SmoothScroll } from "@/components/portfolio/smooth-scroll";
-import { Component as SpotlightCursor } from "@/components/ui/spotlight-cursor";
 import "./globals.css";
 
 const inter = Inter({
@@ -28,7 +25,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "Nipun Karunarathna — Full-Stack Web Developer",
   description:
-    "Portfolio of Nipun Karunarathna, a Software Engineering undergraduate building web applications with React, Next.js, C#, .NET, and SQL Server.",
+    "Portfolio of Nipun Karunarathna, a Software Engineering undergraduate building web applications with React, Next.js, C#, ASP.NET Core, and SQL Server.",
   authors: [{ name: "Nipun Karunarathna" }],
   openGraph: {
     title: "Nipun Karunarathna — Full-Stack Web Developer",
@@ -56,17 +53,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
-      <body>
-        <SmoothScroll>{children}</SmoothScroll>
-        <SpotlightCursor
-          config={{
-            radius: 260,
-            brightness: 0.09,
-            color: "#69627b",
-            smoothing: 0.11,
-          }}
-        />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
