@@ -4,9 +4,7 @@ import { Footer } from "@/components/portfolio/footer";
 import { Hero } from "@/components/portfolio/hero";
 import { Navbar } from "@/components/portfolio/navbar";
 import { Projects } from "@/components/portfolio/projects";
-import { SectionTransition } from "@/components/portfolio/section-transition";
 import { Skills } from "@/components/portfolio/skills";
-import { Timeline } from "@/components/portfolio/timeline";
 
 export default function Home() {
   return (
@@ -18,23 +16,16 @@ export default function Home() {
         Skip to content
       </a>
       <Navbar />
-      <main id="main-content">
-        <Hero />
-        <SectionTransition>
+      <div className="lg:px-[7.5rem]">
+        <main id="main-content">
+          <Hero />
           <About />
-        </SectionTransition>
-        <Projects />
-        <SectionTransition>
-          <Timeline />
-        </SectionTransition>
-        <SectionTransition variant="scale">
+          <Projects />
           <Skills />
-        </SectionTransition>
-        <SectionTransition variant="scale">
           <Contact />
-        </SectionTransition>
-      </main>
-      <Footer />
+        </main>
+        <Footer />
+      </div>
     </>
   );
 }

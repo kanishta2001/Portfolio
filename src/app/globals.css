@@ -1,15 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0f1020;
-  --surface: #17182f;
-  --surface-strong: #1d1e38;
-  --primary: #4b356d;
-  --secondary: #39476e;
-  --highlight: #a78bfa;
-  --foreground: #ffffff;
-  --muted: #a1a1aa;
-  --border: rgba(255, 255, 255, 0.1);
+  /* Cool blue-black palette sampled from the approved background reference. */
+  --background: #04080f;
+  --surface: #0d1622;
+  --surface-strong: #08111b;
+  --primary: #8aacbe;
+  --secondary: #64788a;
+  --highlight: #e0e7ff;
+  --foreground: #f8faff;
+  --muted: #8aacbe;
+  --border: rgba(224, 231, 255, 0.14);
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 280ms;
+  --duration-medium: 620ms;
 }
 
 @theme inline {
@@ -21,6 +25,18 @@
   --color-highlight: var(--highlight);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
+  /* Existing Tailwind utilities now inherit the new cool palette. */
+  --color-white: #f8faff;
+  --color-black: #04080f;
+  --color-zinc-100: #f8faff;
+  --color-zinc-200: #e0e7ff;
+  --color-zinc-300: #c7d2df;
+  --color-zinc-400: #8aacbe;
+  --color-zinc-500: #64788a;
+  --color-zinc-600: #435465;
+  --color-indigo-400: #a9bed0;
+  --color-violet-200: #dbe8f3;
+  --color-emerald-400: #8aacbe;
   --font-sans: var(--font-inter);
   --font-heading: var(--font-space-grotesk);
 }
@@ -31,24 +47,39 @@
 
 html {
   overflow-x: clip;
-  scroll-behavior: smooth;
-  scroll-padding-top: 9rem;
+  scroll-behavior: auto;
+  scroll-padding-top: 6rem;
+  background: var(--background);
 }
 
 body {
+  position: relative;
+  isolation: isolate;
   min-height: 100vh;
   overflow-x: clip;
-  background:
-    radial-gradient(circle at 8% 12%, rgba(75, 53, 109, 0.2), transparent 30rem),
-    radial-gradient(circle at 90% 30%, rgba(57, 71, 110, 0.13), transparent 28rem),
-    var(--background);
+  background: transparent;
   color: var(--foreground);
   font-family: var(--font-inter), Arial, sans-serif;
 }
 
+/* A viewport-fixed layer keeps the texture still during native, Lenis, and anchor scrolling. */
+body::before {
+  position: fixed;
+  z-index: -2;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(4, 8, 15, 0.12), rgba(4, 8, 15, 0.28)),
+    url("/images/site-background.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  content: "";
+  pointer-events: none;
+}
+
 ::selection {
-  background: rgba(167, 139, 250, 0.34);
-  color: #ffffff;
+  background: rgba(138, 172, 190, 0.42);
+  color: #f8faff;
 }
 
 a,
@@ -67,26 +98,418 @@ button:focus-visible {
   margin-inline: auto;
 }
 
+/*
+ * Main section content sizing is controlled in src/lib/section-content-scale.ts.
+ * CSS zoom scales both the visuals and their layout space, avoiding large empty gaps.
+ */
+.section-content-scale {
+  zoom: var(--section-content-scale, 1);
+}
+
 .glass-card {
   border: 1px solid var(--border);
-  background: linear-gradient(145deg, rgba(29, 30, 56, 0.92), rgba(23, 24, 47, 0.72));
-  box-shadow: 0 24px 80px rgba(3, 4, 19, 0.24);
+  background: linear-gradient(145deg, rgba(13, 22, 34, 0.84), rgba(8, 17, 27, 0.76));
+  box-shadow: 0 24px 80px rgba(0, 3, 8, 0.34);
   backdrop-filter: blur(16px);
 }
 
+.interactive-surface {
+  transition:
+    transform var(--duration-fast) var(--ease-premium),
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+.spotlight-card {
+  --spotlight-x: 50%;
+  --spotlight-y: 50%;
+  position: relative;
+  isolation: isolate;
+  transform-style: preserve-3d;
+}
+
+.spotlight-card::after {
+  position: absolute;
+  z-index: 10;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    24rem circle at var(--spotlight-x) var(--spotlight-y),
+    rgba(138, 172, 190, 0.13),
+    transparent 68%
+  );
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-fast) ease;
+}
+
+.premium-button .button-arrow {
+  transition: transform var(--duration-fast) var(--ease-premium);
+}
+
+.premium-button:hover .button-arrow {
+  transform: translateX(0.25rem);
+}
+
+.ambient-orb {
+  animation: ambient-drift 12s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.ambient-orb-reverse {
+  animation-direction: alternate-reverse;
+  animation-duration: 15s;
+}
+
 .text-gradient {
-  background: linear-gradient(110deg, #ffffff 5%, #c4b5fd 48%, #818cf8 100%);
+  background: linear-gradient(110deg, #8aacbe 5%, #c7d2df 55%, #f8faff 112%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-.scroll-section-perspective {
-  perspective: 1400px;
-}
-
 .marquee-mask {
   mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+/* Borderless ReactBits-style logo loop used by the Skills section. */
+.logo-loop {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  padding-block: 0.5rem;
+}
+
+.logo-loop-track {
+  position: relative;
+  z-index: 0;
+  display: flex;
+  width: max-content;
+  user-select: none;
+  will-change: transform;
+}
+
+.logo-loop-sequence {
+  display: flex;
+  flex: none;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.logo-loop-list-item {
+  flex: none;
+  list-style: none;
+}
+
+.logo-loop-item {
+  display: inline-flex;
+  min-height: var(--logo-loop-height);
+  align-items: center;
+  gap: 0.9rem;
+  color: #c7d2df;
+  transition:
+    color var(--duration-fast) ease,
+    opacity var(--duration-fast) ease,
+    transform var(--duration-fast) var(--ease-premium);
+}
+
+.logo-loop-image {
+  display: block;
+  width: auto;
+  height: calc(var(--logo-loop-height) * 0.62);
+  flex: none;
+  object-fit: contain;
+  pointer-events: none;
+  filter: saturate(0.8) brightness(0.92);
+}
+
+.logo-loop-image-invert {
+  filter: brightness(0) invert(1);
+}
+
+.logo-loop-node {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--logo-loop-height) * 0.62);
+}
+
+.logo-loop-title {
+  max-width: 11rem;
+  font-family: var(--font-space-grotesk), Arial, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  white-space: nowrap;
+}
+
+.logo-loop-fade {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  bottom: 0;
+  width: clamp(2rem, 9%, 7rem);
+  pointer-events: none;
+}
+
+.logo-loop-fade-left {
+  left: 0;
+}
+
+.logo-loop-fade-right {
+  right: 0;
+}
+
+.logo-loop-soft .logo-loop-item {
+  color: #dbe8f3;
+}
+
+/* ScrollVelocity rows stay still until page scroll velocity gives them motion. */
+.skill-velocity-mask {
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.skill-velocity-strip {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  padding-right: clamp(2rem, 4vw, 3.5rem);
+}
+
+.skill-velocity-item {
+  display: inline-flex;
+  min-width: max-content;
+  align-items: center;
+  gap: 0.8rem;
+  color: #c7d2df;
+  font-family: var(--font-space-grotesk), Arial, sans-serif;
+  font-size: 0.855rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+}
+
+.skill-velocity-item > svg {
+  width: 2.28rem;
+  height: 2.28rem;
+  flex: none;
+}
+
+.skill-velocity-image {
+  width: 2.28rem;
+  height: 2.28rem;
+  flex: none;
+  object-fit: contain;
+  filter: saturate(0.85) brightness(0.96);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .logo-loop-item-scale:hover {
+    transform: scale(1.12);
+    color: #ffffff;
+  }
+
+  .logo-loop-item-scale:hover .logo-loop-image {
+    filter: saturate(1) brightness(1.08);
+  }
+
+  .logo-loop-item-scale:hover .logo-loop-image-invert {
+    filter: brightness(0) invert(1);
+  }
+}
+
+/* Hero-only effects are grouped here so the first page is easy to restyle. */
+.hero-section {
+  background: transparent;
+}
+
+.hero-name {
+  max-width: 100%;
+  text-shadow: 0 18px 56px rgba(0, 3, 8, 0.46);
+}
+
+.stroke-text {
+  display: block;
+  width: 100%;
+  line-height: 0;
+}
+
+.stroke-text-svg {
+  display: block;
+  width: 100%;
+  max-height: min(11.5rem, 100%);
+  overflow: visible;
+}
+
+.stroke-text-lettering {
+  font-family: var(--font-space-grotesk), Arial, sans-serif;
+  user-select: none;
+}
+
+.rotating-text {
+  position: relative;
+  display: inline-flex;
+  min-height: 2.35rem;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgba(224, 231, 255, 0.1);
+  border-radius: 0.42rem;
+  background: rgba(13, 22, 34, 0.72);
+  box-shadow: inset 0 1px 0 rgba(224, 231, 255, 0.045);
+  padding: 0.42rem 0.8rem;
+  color: #f8faff;
+  backdrop-filter: blur(10px);
+}
+
+.rotating-text-row {
+  display: inline-flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+}
+
+.rotating-text-cell {
+  display: inline-flex;
+  overflow: hidden;
+}
+
+.rotating-text-char {
+  display: inline-block;
+}
+
+.specular-button {
+  --specular-x: 50%;
+  --specular-y: 50%;
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  min-height: 3.875rem;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--specular-line) 20%, transparent);
+  border-radius: var(--specular-radius);
+  background: var(--specular-base);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--specular-line) 8%, transparent),
+    0 12px 34px rgba(0, 3, 8, 0.2);
+  padding-inline: 2rem;
+  color: var(--specular-text);
+  font-size: 1.125rem;
+  font-weight: 700;
+  transition:
+    transform var(--specular-speed) var(--ease-premium),
+    border-color var(--specular-speed) ease,
+    box-shadow var(--specular-speed) ease;
+}
+
+.specular-button-shine {
+  position: absolute;
+  z-index: -1;
+  inset: -1px;
+  border-radius: inherit;
+  background: radial-gradient(
+    7.5rem circle at var(--specular-x) var(--specular-y),
+    color-mix(in srgb, var(--specular-line) 25%, transparent),
+    transparent 62%
+  );
+  opacity: 0.42;
+  transition: opacity var(--specular-speed) ease;
+}
+
+.specular-button-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+}
+
+.hero-social-link {
+  display: inline-flex;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  color: #8aacbe;
+  transition:
+    color var(--duration-fast) ease,
+    transform var(--duration-fast) var(--ease-premium);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .specular-button:hover {
+    transform: translateY(-0.18rem);
+    border-color: color-mix(in srgb, var(--specular-line) 42%, transparent);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--specular-line) 14%, transparent),
+      0 17px 40px rgba(0, 3, 8, 0.3),
+      0 0 30px rgba(138, 172, 190, 0.11);
+  }
+
+  .specular-button:hover .specular-button-shine {
+    opacity: 0.9;
+  }
+
+  .hero-specular-button:hover {
+    background: #e0e7ff;
+    color: #04080f;
+  }
+
+  .hero-social-link:hover,
+  .hero-social-link:focus-visible {
+    transform: translateY(-0.2rem);
+    color: #f8faff;
+  }
+}
+
+@media (max-width: 639px) {
+  .specular-button {
+    min-height: 3.25rem;
+    padding-inline: 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .stroke-text-svg {
+    min-height: 4.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-social-link {
+    width: 1.25rem;
+    min-width: 1.25rem;
+    height: 2.75rem;
+    min-height: 2.75rem;
+  }
+}
+
+@keyframes ambient-drift {
+  from {
+    transform: translate3d(-1.5rem, -0.5rem, 0) scale(0.96);
+  }
+  to {
+    transform: translate3d(1.75rem, 1rem, 0) scale(1.04);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .interactive-surface:hover {
+    transform: translateY(-0.35rem);
+    border-color: rgba(138, 172, 190, 0.42);
+    box-shadow:
+      0 28px 90px rgba(0, 3, 8, 0.42),
+      0 0 0 1px rgba(138, 172, 190, 0.08),
+      0 0 42px rgba(138, 172, 190, 0.1);
+  }
+
+  .spotlight-card:hover::after {
+    opacity: 1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -101,5 +524,9 @@ button:focus-visible {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .ambient-orb {
+    animation: none !important;
   }
 }
