@@ -203,7 +203,7 @@ export function Projects() {
         <div className="mt-12 space-y-14">
           {projects.map((project, index) => (
             <Reveal key={project.title}>
-              <article>
+              <article data-project-magnet-index={index}>
                 <div className="mb-4 flex items-center justify-between text-[0.65rem] tracking-[0.18em] text-zinc-500 uppercase">
                   <span>{`[ ${String(index + 1).padStart(2, "0")} / ${String(projects.length).padStart(2, "0")} ]`}</span>
                   {project.status && <span className="text-highlight">{project.status}</span>}

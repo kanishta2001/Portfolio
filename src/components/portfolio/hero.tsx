@@ -62,7 +62,7 @@ export function Hero() {
               strokeColor="#69627b"
               fillColor="#F8FAFC"
               strokeWidth={1.4}
-              drawDuration={2}
+              drawDuration={1.5}
               fillDelay={0.2}
               stagger={0.05}
               ease="power2.out"

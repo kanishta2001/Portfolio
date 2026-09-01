@@ -1,10 +1,13 @@
 "use client";
 
 import { Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useLenis } from "lenis/react";
+import { useEffect, useState, type MouseEvent } from "react";
 import { navigation } from "@/data/portfolio";
+import { getSectionAdjustment } from "@/lib/section-scroll";
 
 export function Navbar() {
+  const lenis = useLenis();
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
 
@@ -53,8 +56,20 @@ export function Navbar() {
     };
   }, []);
 
-  const handleNavigation = (href: string) => {
-    setActiveSection(href.slice(1));
+  const handleNavigation = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
+    const sectionId = href.slice(1);
+    const section = document.getElementById(sectionId);
+
+    // Shared adjustment එක Navbar සහ magnet දෙකටම apply කරන නිසා
+    // click සහ manual scroll දෙකම එකම exact position එකේ නතර වේ.
+    if (lenis && section) {
+      event.preventDefault();
+      lenis.scrollTo(section, {
+        offset: getSectionAdjustment(sectionId),
+      });
+    }
+
+    setActiveSection(sectionId);
     setIsOpen(false);
   };
 
@@ -66,7 +81,7 @@ export function Navbar() {
             <a
               key={item.href}
               href={item.href}
-              onClick={() => handleNavigation(item.href)}
+              onClick={(event) => handleNavigation(event, item.href)}
               aria-current={activeSection === item.href.slice(1) ? "page" : undefined}
               className={`group relative flex min-h-11 items-center text-[0.8rem] leading-5 font-semibold tracking-[0.2em] uppercase transition-colors duration-300 ${
                 activeSection === item.href.slice(1) ? "text-white" : "text-zinc-500 hover:text-zinc-200"
@@ -94,7 +109,7 @@ export function Navbar() {
           <a
             href="#home"
             className="font-heading text-lg font-bold tracking-tight text-white"
-            onClick={() => handleNavigation("#home")}
+            onClick={(event) => handleNavigation(event, "#home")}
           >
             Nipun<span className="text-highlight">.</span>
           </a>
@@ -122,7 +137,7 @@ export function Navbar() {
                       ? "bg-highlight/12 text-highlight"
                       : "text-zinc-300 hover:bg-white/5 hover:text-white"
                   }`}
-                  onClick={() => handleNavigation(item.href)}
+                  onClick={(event) => handleNavigation(event, item.href)}
                 >
                   {item.label}
                 </a>

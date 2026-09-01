@@ -69,6 +69,7 @@ export const projects: Project[] = [
     category: "Featured Full-Stack Project",
     status: "In Progress",
     githubUrl: "https://github.com/kanishta2001/TeamFit",
+    image: "/projects/teamfit.png",
   },
   {
     title: "LK_TRAVELMATE",
@@ -77,6 +78,7 @@ export const projects: Project[] = [
       "A mobile application concept focused on helping travellers explore and navigate Sri Lanka.",
     technologies: ["Flutter", "Dart"],
     category: "Mobile App",
+    image: "/projects/lk-travelmate.png",
   },
   {
     title: "Student Management System",

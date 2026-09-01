@@ -5,12 +5,17 @@ import { ReactLenis, useLenis } from "lenis/react";
 import { useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
 import { useEffect } from "react";
+import {
+  getProjectAdjustment,
+  getProjectScrollTarget,
+  getSectionScrollTarget,
+  scrollMagnetSettings,
+  sectionScrollStops,
+} from "@/lib/section-scroll";
 
 type SmoothScrollProps = {
   children: ReactNode;
 };
-
-const magnetSectionIds = ["about", "projects", "skills"] as const;
 
 function SectionScrollMagnet() {
   const lenis = useLenis();
@@ -19,27 +24,70 @@ function SectionScrollMagnet() {
   useEffect(() => {
     if (!lenis || reduceMotion) return;
 
-    const sections = magnetSectionIds
-      .map((id) => document.getElementById(id))
-      .filter((section): section is HTMLElement => section !== null);
-
-    if (sections.length === 0) return;
-
     // Proximity snapping only takes over when scrolling finishes close to one
     // of the preferred section views. Continued input remains free to scroll.
     const magnet = new LenisSnap(lenis, {
       type: "proximity",
       // Wait for a genuine pause before settling so trackpads and repeated
       // wheel input never fight the long sticky Projects section.
-      distanceThreshold: "16%",
-      debounce: 460,
-      duration: 0.52,
+      distanceThreshold: scrollMagnetSettings.distanceThreshold,
+      debounce: scrollMagnetSettings.debounce,
+      duration: scrollMagnetSettings.duration,
       easing: (progress) => 1 - Math.pow(1 - progress, 4),
     });
 
-    magnet.addElements(sections, { align: "start" });
+    let removeMagnetPoints: Array<() => void> = [];
+    let resizeFrame: number | null = null;
 
-    return () => magnet.destroy();
+    // Section එකේ actual document position එක ගණනය කරලා custom snap point එකක්
+    // add කරනවා. මේ නිසා offset values section-by-section වෙනස් කළ හැක.
+    const registerMagnetPoints = () => {
+      removeMagnetPoints.forEach((removePoint) => removePoint());
+      removeMagnetPoints = [];
+
+      for (const { id, adjustment } of sectionScrollStops) {
+        const section = document.getElementById(id);
+        if (!section) continue;
+
+        // Navbar click කරන විට Lenis භාවිතා කරන target එකම මෙහි ගණනය වේ.
+        const stopPosition = getSectionScrollTarget(section, adjustment);
+
+        removeMagnetPoints.push(magnet.add(stopPosition));
+      }
+
+      // Responsive layout එකේ visible project panels පමණක් magnet points ලෙස add කරයි.
+      // Desktop sticky projects සහ mobile stacked projects දෙකම මේ logic එක භාවිතා කරයි.
+      const projectPanels = document.querySelectorAll<HTMLElement>("[data-project-magnet-index]");
+
+      projectPanels.forEach((projectPanel) => {
+        if (projectPanel.getClientRects().length === 0) return;
+
+        const projectIndex = Number(projectPanel.dataset.projectMagnetIndex);
+        if (!Number.isInteger(projectIndex)) return;
+
+        const adjustment = getProjectAdjustment(projectIndex);
+        const stopPosition = getProjectScrollTarget(projectPanel, adjustment);
+
+        removeMagnetPoints.push(magnet.add(stopPosition));
+      });
+    };
+
+    // Browser width වෙනස් වූ විට responsive layout එකේ section positions වෙනස්
+    // විය හැකි නිසා snap points නැවත calculate කරනවා.
+    const handleResize = () => {
+      if (resizeFrame !== null) window.cancelAnimationFrame(resizeFrame);
+      resizeFrame = window.requestAnimationFrame(registerMagnetPoints);
+    };
+
+    registerMagnetPoints();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      if (resizeFrame !== null) window.cancelAnimationFrame(resizeFrame);
+      removeMagnetPoints.forEach((removePoint) => removePoint());
+      magnet.destroy();
+    };
   }, [lenis, reduceMotion]);
 
   return null;

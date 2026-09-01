@@ -95,6 +95,7 @@ export function StickyScroll({ content, className = "" }: StickyScrollProps) {
         {content.map((item, index) => (
           <motion.article
             key={item.title}
+            data-project-magnet-index={index}
             ref={(panel) => {
               panelRefs.current[index] = panel;
             }}
