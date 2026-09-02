@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import "lenis/dist/lenis.css";
 import { SmoothScroll } from "@/components/portfolio/smooth-scroll";
 import { Component as SpotlightCursor } from "@/components/ui/spotlight-cursor";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const inter = Inter({
@@ -66,6 +67,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             smoothing: 0.11,
           }}
         />
+        <SpeedInsights />
       </body>
     </html>
   );
